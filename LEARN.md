@@ -2,7 +2,7 @@
 
 ## 10-minute walkthrough script
 
-1. **(1 min) The problem.** "Lumi Skin is a fictional mid-size retailer. Its operations team loses about 40 hours a week to four jobs: the inbox, tickets, the Monday report and invoices. I automated them with n8n and an AI model, and code makes sure the AI cannot send, miscount or double-book anything."
+1. **(1 min) The problem.** "Lumi Skin is a fictional mid-size retailer. By my estimate from stated assumptions (`docs/hours_saved.md`, not measured), its operations team spends about 43 hours a week on four jobs: the inbox, tickets, the Monday report and invoices. I automated them with n8n and an AI model, and code makes sure the AI cannot send, miscount or double-book anything."
 2. **(2 min) The shared pattern.** Open `docs/screenshots/02_ticket_triage.png` and point at each step:
    - Trigger, then Config (model, prompts and thresholds in one place);
    - Check input;
