@@ -36,7 +36,7 @@ class Settings:
 
 def load_settings() -> Settings:
     """Read `Portfolio Projects/.env` if it exists, then the environment."""
-    env_file = REPO_ROOT.parents[1] / ".env"
+    env_file = REPO_ROOT.parent.parent / ".env"  # not .parents[1]: on a Hugging Face Space the repo is /app
     if env_file.exists():
         load_dotenv(env_file, override=False)
     return Settings(

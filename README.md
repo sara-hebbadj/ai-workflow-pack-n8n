@@ -6,6 +6,10 @@ Four n8n workflows that hand routine back-office work to an AI model (enquiries,
 
 ## 1. Demo
 
+**Live demo:** [huggingface.co/spaces/sarahebbadj/ai-workflow-pack-n8n](https://huggingface.co/spaces/sarahebbadj/ai-workflow-pack-n8n) (works without an API key, in demo mode).
+
+To enable live AI on your own copy: add `OPENROUTER_API_KEY` as a Space secret (and `MODEL_CHEAP` as a variable).
+
 - **Video:** pending. Sara will record it: each workflow on 2 inputs, with one error caught and one item sent to human approval.
 - **Canvas screenshots** were taken from the local n8n editor (`docs/screenshots/`):
 
@@ -196,7 +200,7 @@ These were found during the first live-model run (by a coding agent, on 8 Octobe
 
 ```bash
 uv venv --python 3.13 .venv && uv pip install --python .venv -e ".[dev]"   # or: python -m venv .venv && pip install -e ".[dev]"
-.venv/bin/pytest -q && .venv/bin/ruff check .                                 # 86 tests, no network
+.venv/bin/pytest -q && .venv/bin/ruff check .                                 # 92 tests with the [app] extra (86 without it), no network
 .venv/bin/python -m evals.deterministic                                       # real numbers that need no model
 .venv/bin/python -m evals.run --dry-run                                       # whole pipeline with the fake model (NOT results)
 .venv/bin/python -m evals.run --model cheap --limit 10                        # live run: needs OPENROUTER_API_KEY in Portfolio Projects/.env
@@ -212,7 +216,7 @@ uv venv --python 3.13 .venv && uv pip install --python .venv -e ".[dev]"   # or:
 4. Import `build/n8n/*.json` and publish the workflows.
 5. Run `python -m evals.run --target n8n`.
 
-The approval inbox demo (`app/approval_inbox.py`, Gradio) lists the drafts waiting for approval and the review queue: `pip install -e ".[app]" && python app/approval_inbox.py`.
+The approval inbox demo (`app/approval_inbox.py`, Gradio) lists the drafts waiting for approval and the review queue: `pip install -e ".[app]" && python app/approval_inbox.py`. The live demo app (`app/app.py`, also Gradio) runs the four workflows' Python reference on the sample inputs: `python app/app.py`.
 
 ## 8. Data and licence
 
