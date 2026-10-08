@@ -1,0 +1,22 @@
+{
+  "enquiry": {
+    "identical": 50,
+    "total": 50,
+    "mismatches": []
+  },
+  "triage": {
+    "identical": 50,
+    "total": 50,
+    "mismatches": []
+  },
+  "report": {
+    "identical": 50,
+    "total": 50,
+    "mismatches": []
+  },
+  "invoice": {
+    "identical": 50,
+    "total": 50,
+    "mismatches": []
+  }
+}

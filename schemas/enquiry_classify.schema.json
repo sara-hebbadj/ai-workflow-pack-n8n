@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Enquiry classification and fields",
+  "type": "object",
+  "required": ["category", "name", "company", "need", "urgency", "language", "confidence"],
+  "additionalProperties": false,
+  "properties": {
+    "category": {"type": "string", "enum": ["sales", "support", "complaint", "partnership", "spam"]},
+    "name": {"type": ["string", "null"], "maxLength": 120},
+    "company": {"type": ["string", "null"], "maxLength": 160},
+    "need": {"type": "string", "maxLength": 300},
+    "urgency": {"type": "string", "enum": ["low", "medium", "high"]},
+    "language": {"type": "string", "enum": ["en", "ar", "fr", "mixed"]},
+    "confidence": {"type": "number", "minimum": 0, "maximum": 1}
+  }
+}

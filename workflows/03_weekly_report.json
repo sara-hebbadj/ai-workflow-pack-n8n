@@ -1,0 +1,854 @@
+{
+  "id": "wfWeeklyReport01",
+  "name": "03 Weekly AI report (numbers in code)",
+  "nodes": [
+    {
+      "name": "Every Monday 08:00",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 8 * * 1"
+            }
+          ]
+        }
+      },
+      "id": "26150054-35e3-5739-a75c-7f198504c584",
+      "position": [
+        0,
+        -100
+      ]
+    },
+    {
+      "name": "Webhook: run report",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "weekly-report",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "webhookId": "ea934c2e-0d72-5b8b-a0f8-bae97024db05",
+      "id": "38baaccd-7bf3-5a1d-955b-f88c3677eb75",
+      "position": [
+        0,
+        100
+      ]
+    },
+    {
+      "name": "Config",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9cbc3abc-f808-57b6-bc8f-327847248961",
+              "name": "llm_base_url",
+              "value": "https://openrouter.ai/api/v1",
+              "type": "string"
+            },
+            {
+              "id": "28ede776-0a4e-5511-bf02-54cc58390fa2",
+              "name": "model_cheap",
+              "value": "REPLACE_WITH_MODEL_CHEAP",
+              "type": "string"
+            },
+            {
+              "id": "0dda5989-8f2b-5c5a-8291-2460dbb3cc37",
+              "name": "model_main",
+              "value": "REPLACE_WITH_MODEL_MAIN",
+              "type": "string"
+            },
+            {
+              "id": "954b19d6-e457-5161-8c61-e4f5f08f0348",
+              "name": "base_dir",
+              "value": "/home/node/ai-workflow-pack-n8n",
+              "type": "string"
+            },
+            {
+              "id": "ba82ee13-075e-5f29-b867-dbab98c3c4f9",
+              "name": "prompt_narrative",
+              "value": "Task: report_narrative.\nYou write the short narrative for the Lumi Skin weekly operations email.\nThe user message is a JSON object of numbers that were already computed by code. They are correct.\n\nRules:\n- Never type a digit yourself. Refer to every number with a placeholder in curly braces that names its key in the JSON, for example {tickets_total}, {tickets_prev_week}, {tickets_change_pct}, {tickets_by_priority.P1}, {tickets_by_team.Billing}, {sla_breaches}, {negative_sentiment_pct}, {enquiries_by_category.spam}. Code replaces each placeholder with the exact value.\n- Priority names P1, P2, P3 and P4 are allowed as words.\n- Write 3 to 5 short bullet points in English: what happened this week, what changed compared with last week, risks (P1 tickets, SLA breaches, negative sentiment), and one suggested action. Do not number the bullets.\n- Plain business English for a manager. No greetings.\n\nReturn ONLY a JSON object: {\"headline\": \"one sentence\", \"narrative\": \"markdown bullet points\"}.",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "0abb6188-e6e1-5540-ae1c-7f0cbd35995e",
+      "position": [
+        230,
+        0
+      ]
+    },
+    {
+      "name": "Pick week",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "parameters": {
+        "jsCode": "// Which week to report on: the webhook can name one; the Monday schedule reports on last week.\nconst body = $input.first().json.body; // undefined when the schedule started the run\nlet weekStart = body ? body.week_start : null;\nif (!weekStart) {\n  const dubaiNow = new Date(Date.now() + 4 * 3600 * 1000); // Dubai is UTC+4 all year (no daylight saving)\n  const daysSinceMonday = (dubaiNow.getUTCDay() + 6) % 7;\n  const thisMonday = Date.UTC(dubaiNow.getUTCFullYear(), dubaiNow.getUTCMonth(), dubaiNow.getUTCDate() - daysSinceMonday);\n  weekStart = new Date(thisMonday - 7 * 86400000).toISOString().slice(0, 10);\n}\nif (!/^\\d{4}-\\d{2}-\\d{2}$/.test(String(weekStart))) throw new Error(`week_start ${weekStart} is not YYYY-MM-DD`);\nif (new Date(`${weekStart}T00:00:00Z`).getUTCDay() !== 1) throw new Error(`week_start ${weekStart} is not a Monday`);\nreturn [{ json: { week_start: weekStart, from_webhook: Boolean(body), step: 'read_data', dedupe_text: `${(body && body.run_tag) || ''}|${weekStart}` } }];\n"
+      },
+      "onError": "continueErrorOutput",
+      "id": "08eebcc8-de88-5f43-9f80-57bd62a03a15",
+      "position": [
+        460,
+        0
+      ]
+    },
+    {
+      "name": "Seen before?",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "parameters": {
+        "jsCode": "// Idempotency: the same input twice must not create two records.\n// Keys live in this workflow's static data (n8n saves it after production runs, not manual test runs).\nconst item = $input.first().json;\nconst key = item.dedupe_key || item.dedupe_text;\nconst store = $getWorkflowStaticData('global');\nstore.seen = store.seen || {};\nconst duplicate = Boolean(store.seen[key]);\nif (!duplicate) store.seen[key] = new Date().toISOString();\nconst json = { ...item, dedupe_key: key, is_duplicate: duplicate };\nconst binary = undefined; // invoices carry the uploaded file along\nreturn [binary ? { json, binary } : { json }];\n"
+      },
+      "id": "300a8aa4-d2e1-5db0-8ddd-def5fe41044e",
+      "position": [
+        690,
+        0
+      ]
+    },
+    {
+      "name": "Duplicate?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "6c47939e-47e3-5918-b45b-4a6e0797199d",
+              "leftValue": "={{ $json.is_duplicate }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "id": "8530d83b-a66c-5083-8ce5-1b7ed29e7926",
+      "position": [
+        920,
+        0
+      ]
+    },
+    {
+      "name": "Respond: duplicate",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { status: 'duplicate', week_start: $json.week_start } }}",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "d3eee452-8a69-5153-b517-f8133a226fe4",
+      "position": [
+        1150,
+        -200
+      ]
+    },
+    {
+      "name": "Read tickets CSV",
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1.1,
+      "parameters": {
+        "fileSelector": "={{ $('Config').first().json.base_dir }}/data/weekly_report/tickets.csv",
+        "options": {}
+      },
+      "executeOnce": true,
+      "onError": "continueErrorOutput",
+      "id": "1eccdeaf-3f70-566b-808e-25289b59d92c",
+      "position": [
+        1150,
+        0
+      ]
+    },
+    {
+      "name": "Parse tickets CSV",
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "parameters": {
+        "operation": "csv",
+        "binaryPropertyName": "data",
+        "options": {}
+      },
+      "id": "c64af617-a70a-5f29-b346-2480e8a42435",
+      "position": [
+        1380,
+        0
+      ]
+    },
+    {
+      "name": "Read enquiries CSV",
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1.1,
+      "parameters": {
+        "fileSelector": "={{ $('Config').first().json.base_dir }}/data/weekly_report/enquiries.csv",
+        "options": {}
+      },
+      "executeOnce": true,
+      "onError": "continueErrorOutput",
+      "id": "bf0bc41c-9cc0-5d60-b553-88eca2b4e90e",
+      "position": [
+        1610,
+        0
+      ]
+    },
+    {
+      "name": "Parse enquiries CSV",
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "parameters": {
+        "operation": "csv",
+        "binaryPropertyName": "data",
+        "options": {}
+      },
+      "id": "1dd020cf-a35f-5680-aa22-3fbbd99b4cc8",
+      "position": [
+        1840,
+        0
+      ]
+    },
+    {
+      "name": "Compute numbers (code)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "parameters": {
+        "jsCode": "// Every number in the report is computed here, in code. The AI never does arithmetic.\n// Rounding uses integer maths so the result is identical to the Python reference.\nconst PRIORITIES = [\"P1\", \"P2\", \"P3\", \"P4\"];\nconst TEAMS = [\"Technical\", \"Billing\", \"Delivery\", \"Product\", \"Account\"];\nconst CATEGORIES = [\"sales\", \"support\", \"complaint\", \"partnership\", \"spam\"];\nconst SLA_MINUTES = {\"P1\": 60, \"P2\": 240, \"P3\": 1440, \"P4\": 2880};\nconst cfg = $('Config').first().json;\nconst week = $('Seen before?').first().json;\nconst tickets = $('Parse tickets CSV').all().map((i) => i.json);\nconst enquiries = $('Parse enquiries CSV').all().map((i) => i.json);\n\nconst addDays = (iso, n) => new Date(Date.parse(`${iso}T00:00:00Z`) + n * 86400000).toISOString().slice(0, 10);\nconst pct = (part, whole) => (whole === 0 ? 0 : Math.floor((2000 * part + whole) / (2 * whole)) / 10);\nconst avg1 = (total, count) => (count === 0 ? 0 : Math.floor((20 * total + count) / (2 * count)) / 10);\nconst changePct = (cur, prev) => (prev === 0 ? null : (cur < prev ? -1 : 1) * pct(Math.abs(cur - prev), prev));\n// Timestamps are stored in Dubai local time (+04:00), so the first 10 characters are the local date.\nconst inWeek = (ts, start, end) => start <= String(ts).slice(0, 10) && String(ts).slice(0, 10) <= end;\nconst countBy = (rows, field, keys) => Object.fromEntries(keys.map((k) => [k, rows.filter((r) => r[field] === k).length]));\n\nconst start = week.week_start;\nconst end = addDays(start, 6);\nconst current = tickets.filter((t) => inWeek(t.created_at, start, end));\nconst previousCount = tickets.filter((t) => inWeek(t.created_at, addDays(start, -7), addDays(start, -1))).length;\nconst weekEnquiries = enquiries.filter((e) => inWeek(e.received_at, start, end));\nconst minutes = current.map((t) => Number(t.first_response_minutes));\nconst numbers = {\n  week_start: start,\n  week_end: end,\n  tickets_total: current.length,\n  tickets_prev_week: previousCount,\n  tickets_change_pct: changePct(current.length, previousCount),\n  tickets_by_priority: countBy(current, 'priority', PRIORITIES),\n  tickets_by_team: countBy(current, 'team', TEAMS),\n  negative_sentiment_pct: pct(current.filter((t) => t.sentiment === 'negative').length, current.length),\n  avg_first_response_minutes: avg1(minutes.reduce((a, b) => a + b, 0), minutes.length),\n  sla_breaches: current.filter((t) => Number(t.first_response_minutes) > SLA_MINUTES[t.priority]).length,\n  enquiries_total: weekEnquiries.length,\n  enquiries_by_category: countBy(weekEnquiries, 'category', CATEGORIES),\n  spam_pct: pct(weekEnquiries.filter((e) => e.category === 'spam').length, weekEnquiries.length),\n};\nreturn [{\n  json: {\n    ...week,\n    numbers,\n    step: 'ai_narrative',\n    llm_request: {\n      model: cfg.model_main,\n      temperature: 0,\n      response_format: { type: 'json_object' },\n      messages: [{ role: 'system', content: cfg.prompt_narrative }, { role: 'user', content: JSON.stringify(numbers) }],\n    },\n  },\n}];\n"
+      },
+      "id": "01005694-90b6-5c0a-83b8-0e88ffdbc700",
+      "position": [
+        2070,
+        0
+      ]
+    },
+    {
+      "name": "AI: write narrative",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Config').first().json.llm_base_url }}/chat/completions",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.llm_request) }}",
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "credentials": {
+        "openAiApi": {
+          "id": "openrouterCred01",
+          "name": "OpenRouter (OpenAI-compatible)"
+        }
+      },
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000,
+      "onError": "continueErrorOutput",
+      "id": "58a232d5-fa43-5caf-baa2-8efd09f82995",
+      "position": [
+        2300,
+        0
+      ]
+    },
+    {
+      "name": "Check AI output (schema)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "parameters": {
+        "jsCode": "// JSON-schema check of the model's reply. Invalid output is never used: it goes to human review.\n// Parse the model's reply and check it against a JSON Schema (the subset our schemas use).\nfunction parseJsonObject(text) {\n  if (!text) return null;\n  const start = text.indexOf('{');\n  const end = text.lastIndexOf('}');\n  if (start === -1 || end <= start) return null;\n  try {\n    const value = JSON.parse(text.slice(start, end + 1));\n    return value && typeof value === 'object' && !Array.isArray(value) ? value : null;\n  } catch (error) {\n    return null;\n  }\n}\nfunction isType(value, type) {\n  if (type === 'null') return value === null;\n  if (type === 'number') return typeof value === 'number' && Number.isFinite(value);\n  if (type === 'integer') return Number.isInteger(value);\n  if (type === 'object') return value !== null && typeof value === 'object' && !Array.isArray(value);\n  if (type === 'array') return Array.isArray(value);\n  return typeof value === type;\n}\nfunction schemaErrors(value, schema, path = '$') {\n  if (value === null && path === '$') return ['output is not a JSON object'];\n  const types = [].concat(schema.type || []);\n  if (types.length && !types.some((type) => isType(value, type))) return [`${path}: expected ${types.join(' or ')}`];\n  const errors = [];\n  if (schema.enum && !schema.enum.includes(value)) errors.push(`${path}: must be one of ${JSON.stringify(schema.enum)}`);\n  if (typeof value === 'number') {\n    if (schema.minimum !== undefined && value < schema.minimum) errors.push(`${path}: below ${schema.minimum}`);\n    if (schema.maximum !== undefined && value > schema.maximum) errors.push(`${path}: above ${schema.maximum}`);\n  }\n  if (typeof value === 'string') {\n    if (schema.maxLength !== undefined && value.length > schema.maxLength) errors.push(`${path}: longer than ${schema.maxLength}`);\n    if (schema.pattern && !new RegExp(schema.pattern).test(value)) errors.push(`${path}: does not match ${schema.pattern}`);\n  }\n  if (isType(value, 'object')) {\n    const properties = schema.properties || {};\n    for (const key of schema.required || []) if (!(key in value)) errors.push(`${path}.${key}: missing`);\n    for (const [key, sub] of Object.entries(properties)) if (key in value) errors.push(...schemaErrors(value[key], sub, `${path}.${key}`));\n    if (schema.additionalProperties === false) {\n      for (const key of Object.keys(value)) if (!(key in properties)) errors.push(`${path}.${key}: not allowed`);\n    }\n  }\n  return errors;\n}\nconst SCHEMA = {\"$schema\": \"https://json-schema.org/draft/2020-12/schema\", \"title\": \"Weekly report narrative (numbers come from code, not from the model)\", \"type\": \"object\", \"required\": [\"headline\", \"narrative\"], \"additionalProperties\": false, \"properties\": {\"headline\": {\"type\": \"string\", \"maxLength\": 160}, \"narrative\": {\"type\": \"string\", \"maxLength\": 2500}}};\nconst { llm_request, ...context } = $('Compute numbers (code)').first().json;\nconst content = $input.first().json.choices?.[0]?.message?.content || '';\nconst ai = parseJsonObject(content);\nconst errors = schemaErrors(ai, SCHEMA);\nreturn [{ json: { ...context, ai: errors.length ? null : ai, schema_errors: errors } }];\n"
+      },
+      "id": "6c9943b9-d622-5a88-bd83-0c83e9636e67",
+      "position": [
+        2530,
+        0
+      ]
+    },
+    {
+      "name": "Check narrative",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "parameters": {
+        "jsCode": "// The AI never types a number. It writes placeholders such as {tickets_total} or {tickets_by_priority.P1};\n// code fills them in from the computed numbers. If the AI typed a digit itself (other than the labels\n// P1-P4) or used an unknown placeholder, the numbers still go out but the narrative is held for review.\nconst item = $input.first().json;\nconst numbers = item.numbers;\nconst PLACEHOLDER = /\\{([a-z_]+(?:\\.[A-Za-z0-9]+)?)\\}/g;\nconst WITHHELD = \"_Narrative withheld: it failed the checks (schema, placeholders or typed numbers). A human must review it._\";\n\nfunction lookup(path) {\n  let value = numbers;\n  for (const part of path.split('.')) {\n    if (value === null || typeof value !== 'object' || !(part in value)) throw new Error(path);\n    value = value[part];\n  }\n  if (value !== null && typeof value === 'object') throw new Error(path);\n  return value;\n}\n// Python prints floats with one decimal and integers as they are; the JSON keeps that difference\n// only through Number.isInteger, so the integer-valued metrics are listed explicitly.\nconst FLOAT_KEYS = ['tickets_change_pct', 'negative_sentiment_pct', 'avg_first_response_minutes', 'spam_pct'];\nfunction formatValue(path, value) {\n  if (value === null) return 'n/a';\n  return FLOAT_KEYS.includes(path) ? Number(value).toFixed(1) : String(value);\n}\nfunction checkNarrative(text) {\n  const problems = [];\n  for (const match of text.matchAll(PLACEHOLDER)) {\n    try { lookup(match[1]); } catch (unknown) { problems.push(`unknown placeholder {${match[1]}}`); }\n  }\n  const typed = text.replace(PLACEHOLDER, ' ').replace(/\\bP[1-4]\\b/g, ' ').match(/[0-9]+/g) || [];\n  if (typed.length) problems.push(`AI typed numbers itself: ${typed.join(', ')}`);\n  if (problems.length) return { text, problems };\n  return { text: text.replace(PLACEHOLDER, (m, path) => formatValue(path, lookup(path))), problems };\n}\n\nlet problems = item.ai === null ? ['AI output failed the JSON schema check'] : [];\nlet headline = 'Weekly numbers (narrative held for review)';\nlet narrative = WITHHELD;\nif (item.ai !== null) {\n  const h = checkNarrative(item.ai.headline);\n  const n = checkNarrative(item.ai.narrative);\n  problems = [...h.problems, ...n.problems];\n  if (!problems.length) { headline = h.text; narrative = n.text; }\n}\nconst ok = problems.length === 0;\nreturn [{ json: { ...item, status: ok ? 'sent' : 'needs_review', reason: problems.join('; '), headline, narrative } }];\n"
+      },
+      "id": "e0824774-9876-5d28-a236-95de2e1ef3c0",
+      "position": [
+        2760,
+        0
+      ]
+    },
+    {
+      "name": "Build report",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "parameters": {
+        "jsCode": "// Render the \"email\" as Markdown and HTML: numbers table from code + narrative from the AI.\nconst cfg = $('Config').first().json;\nconst r = $input.first().json;\nconst n = r.numbers;\nconst one = (v) => Number(v).toFixed(1);\nconst rows = [\n  ['Tickets this week', String(n.tickets_total)],\n  ['Tickets last week', String(n.tickets_prev_week)],\n  ['Change vs last week (%)', n.tickets_change_pct === null ? 'n/a' : one(n.tickets_change_pct)],\n  ...Object.entries(n.tickets_by_priority).map(([p, c]) => [`${p} tickets`, String(c)]),\n  ['SLA breaches (first response)', String(n.sla_breaches)],\n  ['Negative sentiment (%)', one(n.negative_sentiment_pct)],\n  ['Average first response (minutes)', one(n.avg_first_response_minutes)],\n  ['Enquiries this week', String(n.enquiries_total)],\n  ['Spam enquiries (%)', one(n.spam_pct)],\n];\nconst escape = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\"/g, '&quot;').replace(/'/g, '&#x27;');\nconst title = `Weekly operations report: ${n.week_start} to ${n.week_end}`;\nconst markdown = [\n  `# ${title}`, '', `**${r.headline}**`, '', '| Metric | Value |', '|---|---|', ...rows.map(([k, v]) => `| ${k} | ${v} |`),\n  '', '## Narrative (AI-written, numbers checked by code)', '', r.narrative.trim(), '',\n].join('\\n');\nconst bullets = r.narrative.split('\\n').filter((l) => l.trim()).map((l) => `<li>${escape(l.replace(/^[-* ]+/, '').trim())}</li>`).join('');\nconst html = `<h1>${title}</h1><p><strong>${escape(r.headline)}</strong></p><table>${rows.map(([k, v]) => `<tr><td>${escape(k)}</td><td>${escape(v)}</td></tr>`).join('')}</table><ul>${bullets}</ul>`;\nconst dir = `${cfg.base_dir}/outputs/reports`;\nreturn [\n  { json: { ...r, target_path: `${dir}/weekly_${n.week_start}.md`, content: markdown } },\n  { json: { ...r, target_path: `${dir}/weekly_${n.week_start}.html`, content: html } },\n];\n"
+      },
+      "id": "af2c41b6-38fb-56a0-9fad-593e7a489d41",
+      "position": [
+        2990,
+        0
+      ]
+    },
+    {
+      "name": "Report to file",
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "parameters": {
+        "operation": "toText",
+        "sourceProperty": "content",
+        "options": {}
+      },
+      "id": "fcb5f044-dee0-569f-a1c1-7093cccd86c6",
+      "position": [
+        3220,
+        0
+      ]
+    },
+    {
+      "name": "Report: write",
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1.1,
+      "parameters": {
+        "operation": "write",
+        "fileName": "={{ $('Build report').item.json.target_path }}",
+        "options": {}
+      },
+      "id": "32597b7c-c401-5c43-81a1-f1ea14f70e29",
+      "position": [
+        3450,
+        0
+      ]
+    },
+    {
+      "name": "Build output rows",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "parameters": {
+        "jsCode": "// The mock email outbox line (sent, or held for review) plus the shared review queue if needed.\n// CSV helpers: one line per record, quoted only when needed (same rule as Python's csv module).\nfunction csvCell(value) {\n  if (value === null || value === undefined) return '';\n  const text = typeof value === 'object' ? JSON.stringify(value) : String(value);\n  return /[\",\\n\\r]/.test(text) ? '\"' + text.replace(/\"/g, '\"\"') + '\"' : text;\n}\nfunction csvRow(columns, record) {\n  return columns.map((column) => csvCell(record[column])).join(',') + '\\n';\n}\nconst SENT_COLUMNS = [\"timestamp\", \"workflow\", \"item_id\", \"to\", \"subject\", \"status\", \"detail\"];\nconst REVIEW_COLUMNS = [\"timestamp\", \"workflow\", \"item_id\", \"reason\", \"details\"];\nconst cfg = $('Config').first().json;\nconst r = $('Check narrative').first().json;\nconst now = new Date().toISOString();\nconst outbox = {\n  timestamp: now, workflow: 'weekly_report', item_id: r.week_start, to: 'ops-managers@example.com',\n  subject: `Weekly operations report ${r.week_start}`, status: r.status === 'sent' ? 'sent (mock)' : 'held for review',\n  detail: `weekly_${r.week_start}.md`,\n};\nconst rows = [{ target_path: `${cfg.base_dir}/outputs/sent_emails.csv`, line: csvRow(SENT_COLUMNS, outbox) }];\nif (r.status === 'needs_review') {\n  const review = { timestamp: now, workflow: 'weekly_report', item_id: r.week_start, reason: r.reason, details: null };\n  rows.push({ target_path: `${cfg.base_dir}/outputs/human_review_queue.csv`, line: csvRow(REVIEW_COLUMNS, review) });\n}\nconst response = { week_start: r.week_start, status: r.status, reason: r.reason, numbers: r.numbers };\nreturn rows.map((row) => ({ json: { ...row, response, from_webhook: r.from_webhook } }));\n"
+      },
+      "executeOnce": true,
+      "id": "8f93d2df-2ab6-57a7-a6cf-18f6faab329c",
+      "position": [
+        3680,
+        0
+      ]
+    },
+    {
+      "name": "Row to file",
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "parameters": {
+        "operation": "toText",
+        "sourceProperty": "line",
+        "options": {}
+      },
+      "id": "59394ffb-e9eb-57ed-9418-b243d213edf6",
+      "position": [
+        3910,
+        0
+      ]
+    },
+    {
+      "name": "Row: write",
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1.1,
+      "parameters": {
+        "operation": "write",
+        "fileName": "={{ $('Build output rows').item.json.target_path }}",
+        "options": {
+          "append": true
+        }
+      },
+      "id": "a3c9b1a5-81f0-51d6-b2c9-faf5c1ffb287",
+      "position": [
+        4140,
+        0
+      ]
+    },
+    {
+      "name": "Started by webhook?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "b1baa653-1fa0-5d22-aa61-cdc6450caa9f",
+              "leftValue": "={{ $('Pick week').first().json.from_webhook }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "executeOnce": true,
+      "id": "0b49663f-3ab8-58a5-8b24-c52b8a88bf23",
+      "position": [
+        4370,
+        0
+      ]
+    },
+    {
+      "name": "Respond: result",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $('Build output rows').first().json.response }}",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "10eb3de3-6751-5330-b16e-58c1868efbce",
+      "position": [
+        4600,
+        0
+      ]
+    },
+    {
+      "name": "Error: log row",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "parameters": {
+        "jsCode": "// Error branch: write one row to logs/errors.csv, forget the idempotency key so the input\n// can be retried later, and answer the webhook caller with status \"error\".\n// CSV helpers: one line per record, quoted only when needed (same rule as Python's csv module).\nfunction csvCell(value) {\n  if (value === null || value === undefined) return '';\n  const text = typeof value === 'object' ? JSON.stringify(value) : String(value);\n  return /[\",\\n\\r]/.test(text) ? '\"' + text.replace(/\"/g, '\"\"') + '\"' : text;\n}\nfunction csvRow(columns, record) {\n  return columns.map((column) => csvCell(record[column])).join(',') + '\\n';\n}\nconst COLUMNS = [\"timestamp\", \"workflow\", \"item_id\", \"step\", \"error_type\", \"message\"];\nconst cfg = $('Config').first().json;\nconst item = $input.first().json;\nconst error = item.error || 'unknown error';\nconst message = typeof error === 'string' ? error : error.description || error.message || JSON.stringify(error);\nlet itemId = 'unknown';\ntry {\n  itemId = $('Webhook: run report').first().json.body.week_start || itemId; // straight from the trigger, in case the input check failed\n} catch (noTrigger) {\n  // started by the schedule, or no such field\n}\ntry {\n  const checked = $('Seen before?').first().json;\n  itemId = checked.week_start || itemId;\n  const key = checked.dedupe_key || checked.dedupe_text;\n  const store = $getWorkflowStaticData('global');\n  if (key && store.seen) delete store.seen[key];\n} catch (notExecuted) {\n  // the input check itself failed, so no key was stored yet\n}\nconst record = {\n  timestamp: new Date().toISOString(),\n  workflow: 'weekly_report',\n  item_id: itemId,\n  step: item.step || 'check_input',\n  error_type: typeof error === 'string' ? 'Error' : error.name || 'Error',\n  message: String(message).slice(0, 500),\n};\nreturn [{\n  json: {\n    target_path: `${cfg.base_dir}/logs/errors.csv`,\n    line: csvRow(COLUMNS, record),\n    response: { status: 'error', item_id: itemId, step: record.step, reason: record.message },\n  },\n}];\n"
+      },
+      "id": "02fba2d7-9030-58a8-9056-960e91894c5e",
+      "position": [
+        460,
+        420
+      ]
+    },
+    {
+      "name": "Error row to file",
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "parameters": {
+        "operation": "toText",
+        "sourceProperty": "line",
+        "options": {}
+      },
+      "id": "529e6d4d-90f1-52be-9520-54acd9803cb9",
+      "position": [
+        690,
+        420
+      ]
+    },
+    {
+      "name": "Error row: write",
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1.1,
+      "parameters": {
+        "operation": "write",
+        "fileName": "={{ $('Error: log row').item.json.target_path }}",
+        "options": {
+          "append": true
+        }
+      },
+      "id": "72bbe2c0-2c8c-5392-b87f-db371df798cb",
+      "position": [
+        920,
+        420
+      ]
+    },
+    {
+      "name": "Respond: error",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $('Error: log row').first().json.response }}",
+        "options": {
+          "responseCode": 500
+        }
+      },
+      "id": "11ad2bca-a4de-5f79-8b47-01574dfc992e",
+      "position": [
+        1150,
+        420
+      ]
+    },
+    {
+      "name": "Note: errors",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "parameters": {
+        "content": "## Error branch\nAPI failures (after 3 tries), bad input and broken files land here: one row in `logs/errors.csv`, the idempotency key is released so the input can be retried, and the caller gets HTTP 500.",
+        "width": 420,
+        "height": 160,
+        "color": 3
+      },
+      "id": "1061d5d8-6743-51b4-a409-87ca0255a9ee",
+      "position": [
+        460,
+        570
+      ]
+    },
+    {
+      "name": "Note: flow",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "parameters": {
+        "content": "## Weekly AI report\nEvery number is computed in **code** from the CSVs. The AI only writes the narrative, then code checks that every number it mentions exists in the computed data. If not, the numbers go out and the narrative is held for review. The email is mocked as `outputs/reports/weekly_<date>.md/.html` + a line in `outputs/sent_emails.csv`.",
+        "width": 560,
+        "height": 200,
+        "color": 5
+      },
+      "id": "2712d2b7-b2d3-5985-87b8-44734ef2fcb0",
+      "position": [
+        0,
+        -380
+      ]
+    }
+  ],
+  "connections": {
+    "Build report": {
+      "main": [
+        [
+          {
+            "node": "Report to file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Report to file": {
+      "main": [
+        [
+          {
+            "node": "Report: write",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build output rows": {
+      "main": [
+        [
+          {
+            "node": "Row to file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Row to file": {
+      "main": [
+        [
+          {
+            "node": "Row: write",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Every Monday 08:00": {
+      "main": [
+        [
+          {
+            "node": "Config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook: run report": {
+      "main": [
+        [
+          {
+            "node": "Config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Config": {
+      "main": [
+        [
+          {
+            "node": "Pick week",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pick week": {
+      "main": [
+        [
+          {
+            "node": "Seen before?",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Error: log row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Seen before?": {
+      "main": [
+        [
+          {
+            "node": "Duplicate?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Duplicate?": {
+      "main": [
+        [
+          {
+            "node": "Respond: duplicate",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Read tickets CSV",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read tickets CSV": {
+      "main": [
+        [
+          {
+            "node": "Parse tickets CSV",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Error: log row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse tickets CSV": {
+      "main": [
+        [
+          {
+            "node": "Read enquiries CSV",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read enquiries CSV": {
+      "main": [
+        [
+          {
+            "node": "Parse enquiries CSV",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Error: log row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse enquiries CSV": {
+      "main": [
+        [
+          {
+            "node": "Compute numbers (code)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Compute numbers (code)": {
+      "main": [
+        [
+          {
+            "node": "AI: write narrative",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI: write narrative": {
+      "main": [
+        [
+          {
+            "node": "Check AI output (schema)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Error: log row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check AI output (schema)": {
+      "main": [
+        [
+          {
+            "node": "Check narrative",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check narrative": {
+      "main": [
+        [
+          {
+            "node": "Build report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Report: write": {
+      "main": [
+        [
+          {
+            "node": "Build output rows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Row: write": {
+      "main": [
+        [
+          {
+            "node": "Started by webhook?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Started by webhook?": {
+      "main": [
+        [
+          {
+            "node": "Respond: result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Error: log row": {
+      "main": [
+        [
+          {
+            "node": "Error row to file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Error row to file": {
+      "main": [
+        [
+          {
+            "node": "Error row: write",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Error row: write": {
+      "main": [
+        [
+          {
+            "node": "Respond: error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Asia/Dubai",
+    "saveDataErrorExecution": "all",
+    "saveDataSuccessExecution": "all",
+    "saveManualExecutions": true,
+    "errorWorkflow": "wfErrorLogger001"
+  },
+  "pinData": {},
+  "active": false,
+  "tags": [],
+  "meta": {
+    "templateCredsSetupCompleted": false
+  }
+}

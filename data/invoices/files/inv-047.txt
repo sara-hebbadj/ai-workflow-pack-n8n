@@ -1,0 +1,23 @@
+From: accounts@supplier.example.com
+Subject: Invoice from Gulf Glass Bottles FZE
+Hello Lumi Skin team,
+Please find our invoice details below.
+
+TAX INVOICE
+Gulf Glass Bottles FZE
+Plot S-41, Jebel Ali Free Zone, Dubai, UAE
+TRN: 100000000000003
+INVOICE NUMBER    GGB-2026-4269
+DATE    02-Mar-2026
+Bill To: Lumi Skin Trading LLC, Dubai, UAE
+Description | Qty | Unit Price | Amount
+Dropper caps | 20 | 0.44 | 8.80
+Frosted jar 50ml | 2 | 1.98 | 3.96
+Amber glass bottle 30ml | 1 | 2.26 | 2.26
+Sub-total    AED 15.02
+Tax (5%)    AED 0.75
+GRAND TOTAL    AED 15.77
+Payment terms: 30 days
+
+Kind regards,
+Accounts team

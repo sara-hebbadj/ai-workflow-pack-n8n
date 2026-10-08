@@ -1,0 +1,27 @@
+# secrets
+.env
+.env.*
+!.env.example
+
+# python
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+
+# generated at run time
+build/
+outputs/
+logs/*
+!logs/.gitkeep
+*.sqlite
+evals/**/outputs/
+evals/**/logs/
+.gradio/
+
+# tools
+node_modules/
+.n8n/
+.DS_Store

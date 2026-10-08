@@ -1,0 +1,22 @@
+From: accounts@supplier.example.com
+Subject: Invoice from Marina Courier Services LLC
+Hello Lumi Skin team,
+Please find our invoice details below.
+
+TAX INVOICE
+Marina Courier Services LLC
+Marina Plaza, Dubai Marina, Dubai, UAE
+TRN: 100000000000003
+INVOICE NUMBER    MCS-2026-2889
+DATE    2026-01-12
+Bill To: Lumi Skin Trading LLC, Dubai, UAE
+Description | Qty | Unit Price | Amount
+Next-day deliveries | 11 | 14.87 | 163.57
+Return pick-ups | 9 | 12.65 | 113.85
+Sub-total    AED 277.42
+Tax (5%)    AED 13.87
+GRAND TOTAL    AED 291.29
+Payment terms: 30 days
+
+Kind regards,
+Accounts team

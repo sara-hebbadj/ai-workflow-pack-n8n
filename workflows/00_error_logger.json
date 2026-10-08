@@ -1,0 +1,161 @@
+{
+  "id": "wfErrorLogger001",
+  "name": "00 Error logger (global)",
+  "nodes": [
+    {
+      "name": "When any workflow fails",
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "parameters": {},
+      "id": "e1ee7bce-20f0-573c-ade1-d8cf9f425f3d",
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Config",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "954b19d6-e457-5161-8c61-e4f5f08f0348",
+              "name": "base_dir",
+              "value": "/home/node/ai-workflow-pack-n8n",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "344892d1-1120-5537-ae5a-928298d45b83",
+      "position": [
+        230,
+        0
+      ]
+    },
+    {
+      "name": "Build error row",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "parameters": {
+        "jsCode": "// Global safety net: n8n runs this workflow when any other workflow fails in a way its own\n// error branch did not catch (for example a bug in a Code node).\n// CSV helpers: one line per record, quoted only when needed (same rule as Python's csv module).\nfunction csvCell(value) {\n  if (value === null || value === undefined) return '';\n  const text = typeof value === 'object' ? JSON.stringify(value) : String(value);\n  return /[\",\\n\\r]/.test(text) ? '\"' + text.replace(/\"/g, '\"\"') + '\"' : text;\n}\nfunction csvRow(columns, record) {\n  return columns.map((column) => csvCell(record[column])).join(',') + '\\n';\n}\nconst COLUMNS = [\"timestamp\", \"workflow\", \"item_id\", \"step\", \"error_type\", \"message\"];\nconst cfg = $('Config').first().json;\nconst e = $input.first().json;\nconst record = {\n  timestamp: new Date().toISOString(),\n  workflow: (e.workflow && e.workflow.name) || 'unknown',\n  item_id: `execution ${(e.execution && e.execution.id) || '?'}`,\n  step: (e.execution && e.execution.lastNodeExecuted) || 'unknown',\n  error_type: (e.execution && e.execution.error && e.execution.error.name) || 'UnhandledError',\n  message: String((e.execution && e.execution.error && e.execution.error.message) || 'unknown').slice(0, 500),\n};\nreturn [{ json: { target_path: `${cfg.base_dir}/logs/errors.csv`, line: csvRow(COLUMNS, record) } }];\n"
+      },
+      "id": "53876fc2-aefd-50ae-9d2f-36d82d0c488e",
+      "position": [
+        460,
+        0
+      ]
+    },
+    {
+      "name": "Error row to file",
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "parameters": {
+        "operation": "toText",
+        "sourceProperty": "line",
+        "options": {}
+      },
+      "id": "88f2d0bc-4a21-5632-92f7-b61ddf27c0c0",
+      "position": [
+        690,
+        0
+      ]
+    },
+    {
+      "name": "Error row: write",
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1.1,
+      "parameters": {
+        "operation": "write",
+        "fileName": "={{ $('Build error row').item.json.target_path }}",
+        "options": {
+          "append": true
+        }
+      },
+      "id": "04d9fd28-fca9-5c95-be2c-d0a56ecc8d9c",
+      "position": [
+        920,
+        0
+      ]
+    },
+    {
+      "name": "Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "parameters": {
+        "content": "## Global error logger\nSet as the *Error Workflow* of the other four. Catches failures that no error branch handled and appends them to `logs/errors.csv`.",
+        "width": 420,
+        "height": 140,
+        "color": 3
+      },
+      "id": "fda8e3e7-a811-53b7-9916-ee2bd25607e4",
+      "position": [
+        0,
+        180
+      ]
+    }
+  ],
+  "connections": {
+    "When any workflow fails": {
+      "main": [
+        [
+          {
+            "node": "Config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Config": {
+      "main": [
+        [
+          {
+            "node": "Build error row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build error row": {
+      "main": [
+        [
+          {
+            "node": "Error row to file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Error row to file": {
+      "main": [
+        [
+          {
+            "node": "Error row: write",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Asia/Dubai",
+    "saveDataErrorExecution": "all",
+    "saveDataSuccessExecution": "all",
+    "saveManualExecutions": true
+  },
+  "pinData": {},
+  "active": false,
+  "tags": [],
+  "meta": {
+    "templateCredsSetupCompleted": false
+  }
+}

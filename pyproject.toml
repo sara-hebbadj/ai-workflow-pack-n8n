@@ -1,0 +1,39 @@
+[project]
+name = "ai-workflow-pack-n8n"
+version = "0.1.0"
+description = "Four n8n + AI business workflows with error handling, human approval and a Python reference implementation"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "Sara Hebbadj" }]
+requires-python = ">=3.11"
+dependencies = [
+    "openai>=1.40",
+    "python-dotenv>=1.0",
+    "jsonschema>=4.21",
+    "pypdf>=4.0",
+    "httpx>=0.27",  # only used by the eval runner to call the n8n webhooks
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.6", "fpdf2>=2.7"]
+app = ["gradio>=4.40"]
+
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src", "."]
+
+[tool.ruff]
+line-length = 130
+target-version = "py311"
+extend-exclude = [".venv"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+ignore = ["B905"]  # zip() without strict=: our zips either pair equal-length lists or pair a list with its own tail on purpose

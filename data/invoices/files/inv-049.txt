@@ -1,0 +1,21 @@
+From: accounts@supplier.example.com
+Subject: Invoice from Atlas Botanicals Ltd
+Hello Lumi Skin team,
+Please find our invoice details below.
+
+TAX INVOICE
+Atlas Botanicals Ltd
+14 Mill Lane, Bristol, United Kingdom
+TRN: 100000000000003
+Inv # ATB-2026-4608
+Date of issue 04 March 2026
+Bill To: Lumi Skin Trading LLC, Dubai, UAE
+Description | Qty | Unit Price | Amount
+Shea butter 1kg | 1 | 13.12 | 13.12
+Net amount 13.12 GBP
+VAT @ 20% 2.62 GBP
+Amount due 15.74 GBP
+Payment terms: 30 days
+
+Kind regards,
+Accounts team

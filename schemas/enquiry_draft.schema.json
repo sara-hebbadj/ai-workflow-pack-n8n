@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Draft reply waiting for human approval",
+  "type": "object",
+  "required": ["reply_subject", "reply_body"],
+  "additionalProperties": false,
+  "properties": {
+    "reply_subject": {"type": "string", "maxLength": 150},
+    "reply_body": {"type": "string", "maxLength": 1500}
+  }
+}

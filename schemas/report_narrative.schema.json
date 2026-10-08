@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Weekly report narrative (numbers come from code, not from the model)",
+  "type": "object",
+  "required": ["headline", "narrative"],
+  "additionalProperties": false,
+  "properties": {
+    "headline": {"type": "string", "maxLength": 160},
+    "narrative": {"type": "string", "maxLength": 2500}
+  }
+}

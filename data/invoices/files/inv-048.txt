@@ -1,0 +1,21 @@
+From: accounts@supplier.example.com
+Subject: Invoice from Desert Bloom Packaging LLC
+Hello Lumi Skin team,
+Please find our invoice details below.
+
+TAX INVOICE
+Desert Bloom Packaging LLC
+Warehouse 12, Al Quoz Industrial Area 3, Dubai, UAE
+TRN: 100000000000003
+Invoice No: DBP-2026-2137
+Invoice Date: 17/03/2026
+Bill To: Lumi Skin Trading LLC, Dubai, UAE
+Description | Qty | Unit Price | Amount
+Tissue paper sheets | 10 | 0.17 | 1.70
+Shipping cartons | 10 | 3.29 | 32.90
+Subtotal: AED 34.60
+Total: AED 36.33
+Payment terms: 30 days
+
+Kind regards,
+Accounts team

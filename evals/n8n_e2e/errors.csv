@@ -1,0 +1,24 @@
+timestamp,workflow,item_id,step,error_type,message
+2026-10-08T11:43:34.870Z,enquiry_intake,enq-050,ai_classify,NodeApiError,simulated upstream error for enq-050
+2026-10-08T11:43:44.852Z,ticket_triage,t-050,ai_triage,NodeApiError,simulated upstream error for t-050
+2026-10-08T11:44:00.478Z,weekly_report,2026-09-14,ai_narrative,NodeApiError,simulated upstream error for 2026-09-14
+2026-10-08T11:44:10.513Z,invoice_extraction,inv-050.txt,ai_extract,NodeApiError,simulated upstream error for inv-050.txt
+2026-10-08T11:45:12.243Z,enquiry_intake,x-1,check_input,Error,missing email body [line 3]
+2026-10-08T11:45:12.331Z,ticket_triage,unknown,check_input,Error,missing ticket_id [line 3]
+2026-10-08T11:45:12.416Z,weekly_report,2026-03-04,check_input,Error,week_start 2026-03-04 is not a Monday [line 11]
+2026-10-08T11:45:12.540Z,invoice_extraction,bad.csv,check_input,Error,unsupported file type .csv [line 7]
+2026-10-08T11:45:12.663Z,invoice_extraction,corrupt.pdf,extract_text,Error,Invalid PDF structure.
+2026-10-08T11:45:59.066Z,Test uncaught error,execution 241,Webhook,UnhandledError,No Respond to Webhook node found in the workflow
+2026-10-08T11:46:44.170Z,Test uncaught error,execution 243,Buggy step,UnhandledError,Cannot read properties of undefined (reading 'boom') [line 1]
+2026-10-08T11:51:04.197Z,enquiry_intake,enq-050,ai_classify,NodeApiError,simulated upstream error for enq-050
+2026-10-08T11:51:14.996Z,ticket_triage,t-050,ai_triage,NodeApiError,simulated upstream error for t-050
+2026-10-08T11:51:32.679Z,weekly_report,2026-09-14,ai_narrative,NodeApiError,simulated upstream error for 2026-09-14
+2026-10-08T11:51:44.271Z,invoice_extraction,inv-050.txt,ai_extract,NodeApiError,simulated upstream error for inv-050.txt
+2026-10-08T11:52:18.016Z,enquiry_intake,enq-050,ai_classify,NodeApiError,simulated upstream error for enq-050
+2026-10-08T11:52:28.066Z,ticket_triage,t-050,ai_triage,NodeApiError,simulated upstream error for t-050
+2026-10-08T11:52:43.831Z,weekly_report,2026-09-14,ai_narrative,NodeApiError,simulated upstream error for 2026-09-14
+2026-10-08T11:52:54.473Z,invoice_extraction,inv-050.txt,ai_extract,NodeApiError,simulated upstream error for inv-050.txt
+2026-10-08T12:05:33.707Z,enquiry_intake,enq-050,ai_classify,NodeApiError,simulated upstream error for enq-050
+2026-10-08T12:05:44.355Z,ticket_triage,t-050,ai_triage,NodeApiError,simulated upstream error for t-050
+2026-10-08T12:06:00.700Z,weekly_report,2026-09-14,ai_narrative,NodeApiError,simulated upstream error for 2026-09-14
+2026-10-08T12:06:11.056Z,invoice_extraction,inv-050.txt,ai_extract,NodeApiError,simulated upstream error for inv-050.txt

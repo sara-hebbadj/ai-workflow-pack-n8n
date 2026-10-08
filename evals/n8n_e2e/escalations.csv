@@ -1,0 +1,34 @@
+timestamp,ticket_id,priority,team,message
+2026-10-08T11:43:06.175Z,t-001,P1,Product,@on-call P1 ticket t-001 for Product: Allergic reaction
+2026-10-08T11:43:35.532Z,t-001,P1,Product,@on-call P1 ticket t-001 for Product: Allergic reaction to Vitamin C serum
+2026-10-08T11:43:35.652Z,t-002,P1,Technical,@on-call P1 ticket t-002 for Technical: Checkout down
+2026-10-08T11:43:35.774Z,t-003,P1,Account,@on-call P1 ticket t-003 for Account: تم اختراق حسابي
+2026-10-08T11:43:35.922Z,t-004,P1,Product,@on-call P1 ticket t-004 for Product: ابنتي شربت التونر
+2026-10-08T11:43:36.076Z,t-005,P1,Billing,@on-call P1 ticket t-005 for Billing: 6 charges on my card
+2026-10-08T11:43:36.190Z,t-006,P1,Account,@on-call P1 ticket t-006 for Account: I can see other customers' data
+2026-10-08T11:43:36.311Z,t-007,P1,Product,@on-call P1 ticket t-007 for Product: Brûlure après le peeling
+2026-10-08T11:43:36.425Z,t-008,P1,Product,@on-call P1 ticket t-008 for Product: منتج مقلد
+2026-10-08T11:51:05.082Z,t-001,P1,Product,@on-call P1 ticket t-001 for Product: Allergic reaction to Vitamin C serum
+2026-10-08T11:51:05.230Z,t-002,P1,Technical,@on-call P1 ticket t-002 for Technical: Checkout down
+2026-10-08T11:51:05.378Z,t-003,P1,Account,@on-call P1 ticket t-003 for Account: تم اختراق حسابي
+2026-10-08T11:51:05.524Z,t-004,P1,Product,@on-call P1 ticket t-004 for Product: ابنتي شربت التونر
+2026-10-08T11:51:05.701Z,t-005,P1,Billing,@on-call P1 ticket t-005 for Billing: 6 charges on my card
+2026-10-08T11:51:05.860Z,t-006,P1,Account,@on-call P1 ticket t-006 for Account: I can see other customers' data
+2026-10-08T11:51:06.024Z,t-007,P1,Product,@on-call P1 ticket t-007 for Product: Brûlure après le peeling
+2026-10-08T11:51:06.177Z,t-008,P1,Product,@on-call P1 ticket t-008 for Product: منتج مقلد
+2026-10-08T11:52:18.715Z,t-001,P1,Product,@on-call P1 ticket t-001 for Product: Allergic reaction to Vitamin C serum
+2026-10-08T11:52:18.826Z,t-002,P1,Technical,@on-call P1 ticket t-002 for Technical: Checkout down
+2026-10-08T11:52:18.933Z,t-003,P1,Account,@on-call P1 ticket t-003 for Account: تم اختراق حسابي
+2026-10-08T11:52:19.045Z,t-004,P1,Product,@on-call P1 ticket t-004 for Product: ابنتي شربت التونر
+2026-10-08T11:52:19.150Z,t-005,P1,Billing,@on-call P1 ticket t-005 for Billing: 6 charges on my card
+2026-10-08T11:52:19.247Z,t-006,P1,Account,@on-call P1 ticket t-006 for Account: I can see other customers' data
+2026-10-08T11:52:19.370Z,t-007,P1,Product,@on-call P1 ticket t-007 for Product: Brûlure après le peeling
+2026-10-08T11:52:19.483Z,t-008,P1,Product,@on-call P1 ticket t-008 for Product: منتج مقلد
+2026-10-08T12:05:34.452Z,t-001,P1,Product,@on-call P1 ticket t-001 for Product: Allergic reaction to Vitamin C serum
+2026-10-08T12:05:34.578Z,t-002,P1,Technical,@on-call P1 ticket t-002 for Technical: Checkout down
+2026-10-08T12:05:34.702Z,t-003,P1,Account,@on-call P1 ticket t-003 for Account: تم اختراق حسابي
+2026-10-08T12:05:34.847Z,t-004,P1,Product,@on-call P1 ticket t-004 for Product: ابنتي شربت التونر
+2026-10-08T12:05:34.973Z,t-005,P1,Billing,@on-call P1 ticket t-005 for Billing: 6 charges on my card
+2026-10-08T12:05:35.082Z,t-006,P1,Account,@on-call P1 ticket t-006 for Account: I can see other customers' data
+2026-10-08T12:05:35.201Z,t-007,P1,Product,@on-call P1 ticket t-007 for Product: Brûlure après le peeling
+2026-10-08T12:05:35.312Z,t-008,P1,Product,@on-call P1 ticket t-008 for Product: منتج مقلد

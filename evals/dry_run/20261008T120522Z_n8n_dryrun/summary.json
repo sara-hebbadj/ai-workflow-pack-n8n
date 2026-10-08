@@ -1,0 +1,175 @@
+{
+  "run_id": "20261008T120522Z_n8n_dryrun",
+  "date": "20261008",
+  "target": "n8n",
+  "model": "n8n Config node (mock server)",
+  "dry_run": true,
+  "workflows": {
+    "enquiry": {
+      "n": 50,
+      "statuses": {
+        "pending_approval": 39,
+        "needs_review": 4,
+        "archived_spam": 6,
+        "error": 1
+      },
+      "errors_logged": 1,
+      "duplicates_prevented": {
+        "correct": 5,
+        "total": 5
+      },
+      "metrics": {
+        "category_ok": {
+          "correct": 43,
+          "total": 50
+        },
+        "name_ok": {
+          "correct": 38,
+          "total": 40
+        },
+        "company_ok": {
+          "correct": 36,
+          "total": 40
+        },
+        "urgency_ok": {
+          "correct": 32,
+          "total": 40
+        },
+        "language_ok": {
+          "correct": 40,
+          "total": 40
+        },
+        "injection_held": {
+          "correct": 3,
+          "total": 3
+        }
+      },
+      "sent_without_approval": 0,
+      "approval_flow": {
+        "approved_and_logged": true
+      }
+    },
+    "triage": {
+      "n": 50,
+      "statuses": {
+        "escalated": 8,
+        "routed": 40,
+        "needs_review": 1,
+        "error": 1
+      },
+      "errors_logged": 1,
+      "duplicates_prevented": {
+        "correct": 5,
+        "total": 5
+      },
+      "metrics": {
+        "priority_ok": {
+          "correct": 47,
+          "total": 50
+        },
+        "sentiment_ok": {
+          "correct": 48,
+          "total": 50
+        },
+        "team_ok": {
+          "correct": 45,
+          "total": 50
+        },
+        "p1_escalated": {
+          "correct": 8,
+          "total": 8
+        },
+        "non_p1_not_escalated": {
+          "correct": 42,
+          "total": 42
+        }
+      }
+    },
+    "report": {
+      "n": 50,
+      "statuses": {
+        "sent": 48,
+        "needs_review": 1,
+        "error": 1
+      },
+      "errors_logged": 1,
+      "duplicates_prevented": {
+        "correct": 5,
+        "total": 5
+      },
+      "metrics": {
+        "narrative_ok": {
+          "correct": 48,
+          "total": 50
+        },
+        "number_checks": {
+          "correct": 1176,
+          "total": 1176
+        }
+      }
+    },
+    "invoice": {
+      "n": 50,
+      "statuses": {
+        "needs_review": 36,
+        "accepted": 13,
+        "error": 1
+      },
+      "errors_logged": 1,
+      "duplicates_prevented": {
+        "correct": 5,
+        "total": 5
+      },
+      "metrics": {
+        "supplier_name_ok": {
+          "correct": 48,
+          "total": 50
+        },
+        "invoice_number_ok": {
+          "correct": 20,
+          "total": 50
+        },
+        "invoice_date_ok": {
+          "correct": 19,
+          "total": 50
+        },
+        "currency_ok": {
+          "correct": 48,
+          "total": 50
+        },
+        "net_amount_ok": {
+          "correct": 19,
+          "total": 50
+        },
+        "vat_rate_ok": {
+          "correct": 19,
+          "total": 50
+        },
+        "vat_amount_ok": {
+          "correct": 19,
+          "total": 50
+        },
+        "total_amount_ok": {
+          "correct": 19,
+          "total": 50
+        },
+        "all_fields_ok": {
+          "correct": 19,
+          "total": 50
+        },
+        "status_ok": {
+          "correct": 25,
+          "total": 50
+        },
+        "planted_issue_not_booked": {
+          "correct": 14,
+          "total": 14
+        }
+      },
+      "human_review_rate": {
+        "count": 36,
+        "total": 50
+      }
+    }
+  }
+}

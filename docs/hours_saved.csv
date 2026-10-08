@@ -1,0 +1,7 @@
+workflow,task,weekly_volume_ASSUMED,manual_minutes_per_item_ASSUMED,after_minutes_per_item_ASSUMED,manual_hours_per_week,after_hours_per_week,hours_saved_per_week,assumption_notes
+01 Enquiry intake,"read, classify, log, route and reply to an inbound email",150,6.0,2.0,15.00,5.00,10.00,"after = check AI fields + read/edit/approve draft; spam and review items included in the average"
+02 Ticket triage,"read a ticket, set priority and team, post to the channel",300,3.0,0.8,15.00,4.00,11.00,"after = 0.5 min spot check per ticket + about 10% of tickets fully re-triaged (10% x 3 min)"
+03 Weekly report,"export data, build the pivot tables, write the Monday summary",1,180.0,20.0,3.00,0.33,2.67,"after = read the report, check the held narrative if any"
+04 Invoices,"key in one supplier invoice and check the totals",120,5.0,2.2,10.00,4.40,5.60,"after = 70% accepted x 1 min check + 30% human-check queue x 5 min"
+00 Running the automation,"monitor the error log and review queue; maintain prompts and tests",1,0.0,120.0,0.00,2.00,-2.00,"new work created by the automation (owner time)"
+TOTAL (ESTIMATE),,,,,43.00,15.73,27.27,"ESTIMATES from stated assumptions; not measured"
