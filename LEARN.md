@@ -29,7 +29,7 @@
    - Upload `inv-040.txt` twice: the second upload is a duplicate.
 7. **(1 min) Evidence and honesty.**
    - 200/200 n8n decisions are identical to the Python reference.
-   - Live-model accuracy is pending a key.
+   - Live model (`openai/gpt-6-luna`, 8 October 2026): invoices 50/50 with all fields correct against 19/50 for the regex baseline; enquiry category 50/50; ticket priority 48/50.
    - The hours saved are an estimate with its assumptions shown.
 
 ## 10 interview questions with short answers
@@ -50,7 +50,7 @@
      - I ran the Code-node JavaScript from the exported JSON with Node.js and compared it with a Python reference;
      - I ran the real n8n 2.35.7 against a mock OpenAI-compatible server on 200 inputs (200/200 identical decisions);
      - I injected failures and invalid answers.
-   - The model's accuracy is still pending, and I say so.
+   - A real model was then run (8 October 2026, by the coding agent) on all 200 inputs through the Python reference and on 40 inputs through n8n (35/40 identical decisions; the 5 differences were the model's own answers).
 6. **How do you defend against prompt injection?**
    - The prompts treat the email as data.
    - A deterministic tripwire holds suspicious emails for a person.
@@ -59,6 +59,7 @@
 7. **Why placeholders in the report narrative?**
    - My first check, "every number in the text exists in the data", caught only 17/50 narratives with a wrong number, because the wrong value often matched another count.
    - With placeholders the AI never types a number, and the same test catches 50/50.
+   - Placeholders guarantee the numbers, not the words: the first live run wrote "fell by -54.5%" in 21 of 22 weeks with fewer tickets. The check now also holds that wording.
 8. **How would you roll this out to a 50-person team?**
    - Pilot one workflow with one team.
    - Use the SOP (owners, approval step, switch-off) and the one-page training.

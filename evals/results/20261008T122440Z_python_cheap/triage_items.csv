@@ -1,0 +1,6 @@
+id,status,priority_ok,sentiment_ok,team_ok,p1_escalated,non_p1_not_escalated
+t-001,escalated,True,True,True,True,
+t-002,escalated,True,True,True,True,
+t-003,escalated,True,True,True,True,
+t-004,escalated,True,True,True,True,
+t-005,escalated,True,True,True,True,

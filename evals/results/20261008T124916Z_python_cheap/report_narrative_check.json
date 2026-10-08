@@ -1,0 +1,13 @@
+{
+  "run": "20261008T124916Z_python_cheap",
+  "weeks": 50,
+  "sent": 50,
+  "held_for_review": 0,
+  "errors": 0,
+  "numbers_in_sent_text": 489,
+  "numbers_not_in_computed": 0,
+  "sent_with_number_problem": 0,
+  "sent_with_direction_problem": 0,
+  "held_reasons": [],
+  "method": "regex over the final Markdown; direction = keyword heuristic, not a human or LLM reading"
+}

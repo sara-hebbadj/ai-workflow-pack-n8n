@@ -1,0 +1,11 @@
+id,status,priority_ok,sentiment_ok,team_ok,p1_escalated,non_p1_not_escalated
+t-001,escalated,True,True,True,True,
+t-002,escalated,True,True,True,True,
+t-003,escalated,True,True,True,True,
+t-004,escalated,True,True,True,True,
+t-005,escalated,True,True,True,True,
+t-006,escalated,True,True,False,True,
+t-007,escalated,True,True,True,True,
+t-008,escalated,True,True,True,True,
+t-009,routed,True,True,True,,True
+t-010,routed,True,True,True,,True

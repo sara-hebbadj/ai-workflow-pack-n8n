@@ -60,7 +60,13 @@ def write_trace(trace_path: Path | None, record: dict) -> None:
 
 
 class OpenRouterClient:
-    def __init__(self, settings: Settings, trace_path: Path | None = None, max_cost_usd: float | None = None):
+    def __init__(
+        self,
+        settings: Settings,
+        trace_path: Path | None = None,
+        max_cost_usd: float | None = None,
+        force_role: str | None = None,
+    ):
         if not settings.api_key:
             raise RuntimeError("OPENROUTER_API_KEY is not set. Add it to Portfolio Projects/.env (never commit it).")
         from openai import OpenAI  # imported here so tests never need network libraries configured
@@ -71,11 +77,14 @@ class OpenRouterClient:
         self.trace_path = trace_path
         self.max_cost_usd = max_cost_usd or float(os.getenv("MAX_COST_PER_RUN_USD", "3"))
         self.total_cost_usd = 0.0
+        # None = each task uses its own role (cheap for reading, main for writing), as in the n8n Config node.
+        # "cheap" or "main" = every call uses that one model (used by `evals.run --model`).
+        self.force_role = force_role
 
     def chat(self, task: str, model_role: str, system: str, user: str, item_id: str) -> LLMReply:
         if self.total_cost_usd >= self.max_cost_usd:
             raise BudgetExceeded(f"run cost reached US${self.total_cost_usd:.2f}; stopping as agreed in AGENTS.md")
-        model = self.settings.model_for(model_role)
+        model = self.settings.model_for(self.force_role or model_role)
         reply = with_retries(lambda: self._call_once(task, model, system, user, item_id))
         self.total_cost_usd += reply.cost_usd
         return reply

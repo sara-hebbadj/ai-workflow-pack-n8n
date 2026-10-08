@@ -1,0 +1,49 @@
+{"execution":906,"workflow":"wfEnquiryIntake1","started":"2026-10-08 12:35:30.643","node":"AI: classify + extract","model":"openai/gpt-6-luna","prompt_tokens":454,"completion_tokens":109,"cost":0.0000999}
+{"execution":906,"workflow":"wfEnquiryIntake1","started":"2026-10-08 12:35:30.643","node":"AI: draft reply","model":"openai/gpt-6-luna","prompt_tokens":271,"completion_tokens":123,"cost":0.0000886}
+{"execution":907,"workflow":"wfEnquiryIntake1","started":"2026-10-08 12:35:37.278","node":"AI: classify + extract","model":"openai/gpt-6-luna","prompt_tokens":422,"completion_tokens":114,"cost":0.0000992}
+{"execution":907,"workflow":"wfEnquiryIntake1","started":"2026-10-08 12:35:37.278","node":"AI: draft reply","model":"openai/gpt-6-luna","prompt_tokens":239,"completion_tokens":136,"cost":0.0000919}
+{"execution":908,"workflow":"wfEnquiryIntake1","started":"2026-10-08 12:35:43.982","node":"AI: classify + extract","model":"openai/gpt-6-luna","prompt_tokens":450,"completion_tokens":247,"cost":0.0001685}
+{"execution":908,"workflow":"wfEnquiryIntake1","started":"2026-10-08 12:35:43.982","node":"AI: draft reply","model":"openai/gpt-6-luna","prompt_tokens":267,"completion_tokens":143,"cost":0.0000982}
+{"execution":909,"workflow":"wfEnquiryIntake1","started":"2026-10-08 12:35:51.206","node":"AI: classify + extract","model":"openai/gpt-6-luna","prompt_tokens":441,"completion_tokens":98,"cost":0.0000931}
+{"execution":909,"workflow":"wfEnquiryIntake1","started":"2026-10-08 12:35:51.206","node":"AI: draft reply","model":"openai/gpt-6-luna","prompt_tokens":258,"completion_tokens":115,"cost":0.0000833}
+{"execution":910,"workflow":"wfEnquiryIntake1","started":"2026-10-08 12:35:55.659","node":"AI: classify + extract","model":"openai/gpt-6-luna","prompt_tokens":422,"completion_tokens":104,"cost":0.0000942}
+{"execution":910,"workflow":"wfEnquiryIntake1","started":"2026-10-08 12:35:55.659","node":"AI: draft reply","model":"openai/gpt-6-luna","prompt_tokens":239,"completion_tokens":142,"cost":0.0000949}
+{"execution":911,"workflow":"wfEnquiryIntake1","started":"2026-10-08 12:36:01.430","node":"AI: classify + extract","model":"openai/gpt-6-luna","prompt_tokens":416,"completion_tokens":110,"cost":0.0000966}
+{"execution":911,"workflow":"wfEnquiryIntake1","started":"2026-10-08 12:36:01.430","node":"AI: draft reply","model":"openai/gpt-6-luna","prompt_tokens":233,"completion_tokens":111,"cost":0.0000788}
+{"execution":912,"workflow":"wfEnquiryIntake1","started":"2026-10-08 12:36:08.233","node":"AI: classify + extract","model":"openai/gpt-6-luna","prompt_tokens":458,"completion_tokens":116,"cost":0.0001038}
+{"execution":912,"workflow":"wfEnquiryIntake1","started":"2026-10-08 12:36:08.233","node":"AI: draft reply","model":"openai/gpt-6-luna","prompt_tokens":275,"completion_tokens":166,"cost":0.0001105}
+{"execution":913,"workflow":"wfEnquiryIntake1","started":"2026-10-08 12:36:14.872","node":"AI: classify + extract","model":"openai/gpt-6-luna","prompt_tokens":423,"completion_tokens":125,"cost":0.0001048}
+{"execution":913,"workflow":"wfEnquiryIntake1","started":"2026-10-08 12:36:14.872","node":"AI: draft reply","model":"openai/gpt-6-luna","prompt_tokens":240,"completion_tokens":172,"cost":0.00011}
+{"execution":914,"workflow":"wfEnquiryIntake1","started":"2026-10-08 12:36:22.373","node":"AI: classify + extract","model":"openai/gpt-6-luna","prompt_tokens":451,"completion_tokens":98,"cost":0.0000941}
+{"execution":915,"workflow":"wfEnquiryIntake1","started":"2026-10-08 12:36:24.625","node":"AI: classify + extract","model":"openai/gpt-6-luna","prompt_tokens":419,"completion_tokens":132,"cost":0.0001079}
+{"execution":915,"workflow":"wfEnquiryIntake1","started":"2026-10-08 12:36:24.625","node":"AI: draft reply","model":"openai/gpt-6-luna","prompt_tokens":236,"completion_tokens":104,"cost":0.0000756}
+{"execution":921,"workflow":"wfTicketTriage01","started":"2026-10-08 12:36:31.542","node":"AI: triage","model":"openai/gpt-6-luna","prompt_tokens":373,"completion_tokens":78,"cost":0.0000763}
+{"execution":922,"workflow":"wfTicketTriage01","started":"2026-10-08 12:36:34.715","node":"AI: triage","model":"openai/gpt-6-luna","prompt_tokens":365,"completion_tokens":102,"cost":0.0000875}
+{"execution":923,"workflow":"wfTicketTriage01","started":"2026-10-08 12:36:37.698","node":"AI: triage","model":"openai/gpt-6-luna","prompt_tokens":360,"completion_tokens":130,"cost":0.000101}
+{"execution":924,"workflow":"wfTicketTriage01","started":"2026-10-08 12:36:40.711","node":"AI: triage","model":"openai/gpt-6-luna","prompt_tokens":374,"completion_tokens":138,"cost":0.0001064}
+{"execution":925,"workflow":"wfTicketTriage01","started":"2026-10-08 12:36:43.653","node":"AI: triage","model":"openai/gpt-6-luna","prompt_tokens":373,"completion_tokens":112,"cost":0.0000933}
+{"execution":926,"workflow":"wfTicketTriage01","started":"2026-10-08 12:36:46.630","node":"AI: triage","model":"openai/gpt-6-luna","prompt_tokens":366,"completion_tokens":120,"cost":0.0000966}
+{"execution":927,"workflow":"wfTicketTriage01","started":"2026-10-08 12:36:49.483","node":"AI: triage","model":"openai/gpt-6-luna","prompt_tokens":365,"completion_tokens":84,"cost":0.0000785}
+{"execution":928,"workflow":"wfTicketTriage01","started":"2026-10-08 12:36:52.217","node":"AI: triage","model":"openai/gpt-6-luna","prompt_tokens":369,"completion_tokens":168,"cost":0.0001209}
+{"execution":929,"workflow":"wfTicketTriage01","started":"2026-10-08 12:36:55.942","node":"AI: triage","model":"openai/gpt-6-luna","prompt_tokens":359,"completion_tokens":71,"cost":0.0000714}
+{"execution":930,"workflow":"wfTicketTriage01","started":"2026-10-08 12:36:58.880","node":"AI: triage","model":"openai/gpt-6-luna","prompt_tokens":361,"completion_tokens":82,"cost":0.0000771}
+{"execution":936,"workflow":"wfWeeklyReport01","started":"2026-10-08 12:37:02.354","node":"AI: write narrative","model":"openai/gpt-6-luna","prompt_tokens":390,"completion_tokens":301,"cost":0.0001895}
+{"execution":937,"workflow":"wfWeeklyReport01","started":"2026-10-08 12:37:07.478","node":"AI: write narrative","model":"openai/gpt-6-luna","prompt_tokens":388,"completion_tokens":569,"cost":0.0003233}
+{"execution":938,"workflow":"wfWeeklyReport01","started":"2026-10-08 12:37:17.070","node":"AI: write narrative","model":"openai/gpt-6-luna","prompt_tokens":391,"completion_tokens":333,"cost":0.0002056}
+{"execution":939,"workflow":"wfWeeklyReport01","started":"2026-10-08 12:37:21.888","node":"AI: write narrative","model":"openai/gpt-6-luna","prompt_tokens":390,"completion_tokens":253,"cost":0.0001655}
+{"execution":940,"workflow":"wfWeeklyReport01","started":"2026-10-08 12:37:26.202","node":"AI: write narrative","model":"openai/gpt-6-luna","prompt_tokens":391,"completion_tokens":294,"cost":0.0001861}
+{"execution":941,"workflow":"wfWeeklyReport01","started":"2026-10-08 12:37:31.234","node":"AI: write narrative","model":"openai/gpt-6-luna","prompt_tokens":392,"completion_tokens":378,"cost":0.0002282}
+{"execution":942,"workflow":"wfWeeklyReport01","started":"2026-10-08 12:37:37.138","node":"AI: write narrative","model":"openai/gpt-6-luna","prompt_tokens":392,"completion_tokens":402,"cost":0.0002402}
+{"execution":943,"workflow":"wfWeeklyReport01","started":"2026-10-08 12:37:44.188","node":"AI: write narrative","model":"openai/gpt-6-luna","prompt_tokens":392,"completion_tokens":336,"cost":0.0002072}
+{"execution":944,"workflow":"wfWeeklyReport01","started":"2026-10-08 12:37:49.309","node":"AI: write narrative","model":"openai/gpt-6-luna","prompt_tokens":389,"completion_tokens":481,"cost":0.0002794}
+{"execution":945,"workflow":"wfWeeklyReport01","started":"2026-10-08 12:37:55.848","node":"AI: write narrative","model":"openai/gpt-6-luna","prompt_tokens":393,"completion_tokens":291,"cost":0.0001848}
+{"execution":951,"workflow":"wfInvoiceExtract","started":"2026-10-08 12:38:01.234","node":"AI: extract fields","model":"openai/gpt-6-luna","prompt_tokens":419,"completion_tokens":110,"cost":0.0000969}
+{"execution":952,"workflow":"wfInvoiceExtract","started":"2026-10-08 12:38:06.085","node":"AI: extract fields","model":"openai/gpt-6-luna","prompt_tokens":388,"completion_tokens":106,"cost":0.0000918}
+{"execution":953,"workflow":"wfInvoiceExtract","started":"2026-10-08 12:38:09.005","node":"AI: extract fields","model":"openai/gpt-6-luna","prompt_tokens":418,"completion_tokens":89,"cost":0.0000863}
+{"execution":954,"workflow":"wfInvoiceExtract","started":"2026-10-08 12:38:12.233","node":"AI: extract fields","model":"openai/gpt-6-luna","prompt_tokens":380,"completion_tokens":109,"cost":0.0000925}
+{"execution":955,"workflow":"wfInvoiceExtract","started":"2026-10-08 12:38:15.965","node":"AI: extract fields","model":"openai/gpt-6-luna","prompt_tokens":399,"completion_tokens":95,"cost":0.0000874}
+{"execution":956,"workflow":"wfInvoiceExtract","started":"2026-10-08 12:38:20.062","node":"AI: extract fields","model":"openai/gpt-6-luna","prompt_tokens":417,"completion_tokens":104,"cost":0.0000937}
+{"execution":957,"workflow":"wfInvoiceExtract","started":"2026-10-08 12:38:23.736","node":"AI: extract fields","model":"openai/gpt-6-luna","prompt_tokens":389,"completion_tokens":116,"cost":0.0000969}
+{"execution":958,"workflow":"wfInvoiceExtract","started":"2026-10-08 12:38:28.945","node":"AI: extract fields","model":"openai/gpt-6-luna","prompt_tokens":389,"completion_tokens":119,"cost":0.0000984}
+{"execution":959,"workflow":"wfInvoiceExtract","started":"2026-10-08 12:38:33.772","node":"AI: extract fields","model":"openai/gpt-6-luna","prompt_tokens":420,"completion_tokens":95,"cost":0.0000895}
+{"execution":960,"workflow":"wfInvoiceExtract","started":"2026-10-08 12:38:37.259","node":"AI: extract fields","model":"openai/gpt-6-luna","prompt_tokens":389,"completion_tokens":95,"cost":0.0000864}

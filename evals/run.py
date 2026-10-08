@@ -1,6 +1,7 @@
 """Evaluation runner: 50 labelled inputs per workflow, scored against the labels.
 
     python -m evals.run --model cheap --limit 10        # live model through the Python reference (needs a key)
+    python -m evals.run --model mixed                   # cheap model for reading, main model for drafts/narratives
     python -m evals.run --dry-run                       # fake model, proves the pipeline; NOT real results
     python -m evals.run --target n8n --dry-run          # post to the n8n webhooks (n8n pointed at the mock model)
     python -m evals.run --target n8n --model cheap      # post to n8n wired to OpenRouter (real results)
@@ -227,7 +228,13 @@ def write_outputs(run_dir: Path, workflow: str, rows: list[dict], details: dict)
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--workflow", choices=["all", *DATASETS], default="all")
-    parser.add_argument("--model", choices=["cheap", "main"], default="cheap", help="label only for n8n (set models in n8n)")
+    parser.add_argument(
+        "--model",
+        choices=["cheap", "main", "mixed"],
+        default="cheap",
+        help="python target: cheap/main = every AI call uses MODEL_CHEAP/MODEL_MAIN; mixed = cheap for reading tasks, "
+        "main for drafts and narratives (as in the n8n Config node). n8n target: label only (set models in n8n)",
+    )
     parser.add_argument("--limit", type=int, default=None)
     parser.add_argument("--dry-run", action="store_true", help="fake model; outputs go to evals/dry_run/ and are NOT results")
     parser.add_argument("--target", choices=["python", "n8n"], default="python")
@@ -249,8 +256,13 @@ def main() -> None:
             client = FakeClient(DRY_RUN_FAULTS["fail"], DRY_RUN_FAULTS["invalid"], trace_path=trace)
             model = "fake-baseline (dry run)"
         else:
-            client = OpenRouterClient(settings, trace_path=trace)
-            model = f"main={settings.model_main} cheap={settings.model_cheap}"
+            force_role = None if args.model == "mixed" else args.model
+            client = OpenRouterClient(settings, trace_path=trace, force_role=force_role)
+            model = (
+                f"main={settings.model_main} cheap={settings.model_cheap} (per task)"
+                if force_role is None
+                else f"{settings.model_for(force_role)} (every call)"
+            )
         target = PythonTarget(client, run_dir, run_tag=run_id)
 
     workflows = list(DATASETS) if args.workflow == "all" else [args.workflow]

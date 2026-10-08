@@ -1,0 +1,50 @@
+{"week_start": "2025-10-06", "consistent": true, "problems": []}
+{"week_start": "2025-10-13", "consistent": false, "problems": ["The headline contains a double negative by stating ticket volume 'fell by -51.7'.", "The narrative states that spam made up 32.0 of enquiries rather than 32.0% (or 8 enquiries)."]}
+{"week_start": "2025-10-20", "consistent": true, "problems": []}
+{"week_start": "2025-10-27", "consistent": true, "problems": []}
+{"week_start": "2025-11-03", "consistent": false, "problems": ["The headline uses a double negative by stating ticket volume 'fell by -54.5%'."]}
+{"week_start": "2025-11-10", "consistent": true, "problems": []}
+{"week_start": "2025-11-17", "consistent": true, "problems": []}
+{"week_start": "2025-11-24", "consistent": true, "problems": []}
+{"week_start": "2025-12-01", "consistent": true, "problems": []}
+{"week_start": "2025-12-08", "consistent": false, "problems": ["The headline uses a double negative by stating ticket volume 'fell by -57.1'."]}
+{"week_start": "2025-12-15", "consistent": false, "problems": ["The headline uses a double negative by stating volume was 'down -13.3%'."]}
+{"week_start": "2025-12-22", "consistent": true, "problems": []}
+{"week_start": "2025-12-29", "consistent": true, "problems": []}
+{"week_start": "2026-01-05", "consistent": false, "problems": ["Ticket volume is described as having 'decreased by -47.6%', creating a double negative."]}
+{"week_start": "2026-01-12", "consistent": true, "problems": []}
+{"week_start": "2026-01-19", "consistent": false, "problems": ["Headline contains a double negative by stating tickets were down -27.5%."]}
+{"week_start": "2026-01-26", "consistent": true, "problems": []}
+{"week_start": "2026-02-02", "consistent": true, "problems": []}
+{"week_start": "2026-02-09", "consistent": false, "problems": ["Tickets were described as down -61.5%, creating a double negative."]}
+{"week_start": "2026-02-16", "consistent": true, "problems": []}
+{"week_start": "2026-02-23", "consistent": true, "problems": []}
+{"week_start": "2026-03-02", "consistent": false, "problems": ["The phrase 'fell -22.4%' creates a double negative."]}
+{"week_start": "2026-03-09", "consistent": true, "problems": []}
+{"week_start": "2026-03-16", "consistent": false, "problems": ["The phrase 'down -11.5%' contains a double negative."]}
+{"week_start": "2026-03-23", "consistent": false, "problems": ["Ticket volume is described as having 'fell -43.5', creating a double negative."]}
+{"week_start": "2026-03-30", "consistent": false, "problems": ["The statement 'with 7, 7, and 7 each handling 7 tickets' incorrectly substitutes team names with numbers."]}
+{"week_start": "2026-04-06", "consistent": true, "problems": []}
+{"week_start": "2026-04-13", "consistent": false, "problems": ["Ticket volume is described using a double negative (\"fell -25.0%\")."]}
+{"week_start": "2026-04-20", "consistent": true, "problems": []}
+{"week_start": "2026-04-27", "consistent": false, "problems": ["Tickets decreased by -20.9% is a double negative."]}
+{"week_start": "2026-05-04", "consistent": true, "problems": []}
+{"week_start": "2026-05-11", "consistent": false, "problems": ["The headline uses a double negative by stating tickets were 'down -47.0%'."]}
+{"week_start": "2026-05-18", "consistent": true, "problems": []}
+{"week_start": "2026-05-25", "consistent": true, "problems": []}
+{"week_start": "2026-06-01", "consistent": false, "problems": ["The headline contains a double negative by stating tickets were 'down -35.6%'."]}
+{"week_start": "2026-06-08", "consistent": true, "problems": []}
+{"week_start": "2026-06-15", "consistent": true, "problems": []}
+{"week_start": "2026-06-22", "consistent": false, "problems": ["The headline contains a double negative by stating ticket volume 'fell by -43.1'."]}
+{"week_start": "2026-06-29", "consistent": false, "problems": ["The phrase 'down -15.2' is a double negative."]}
+{"week_start": "2026-07-06", "consistent": true, "problems": []}
+{"week_start": "2026-07-13", "consistent": false, "problems": ["The phrase 'down -7.5%' is a double negative."]}
+{"week_start": "2026-07-20", "consistent": false, "problems": ["The narrative uses a double negative by stating ticket volume was down -40.3% instead of down 40.3%."]}
+{"week_start": "2026-07-27", "consistent": true, "problems": []}
+{"week_start": "2026-08-03", "consistent": false, "problems": ["The phrase 'down -33.3%' is a double negative."]}
+{"week_start": "2026-08-10", "consistent": false, "problems": ["The phrase 'fell -5.9%' is a double negative."]}
+{"week_start": "2026-08-17", "consistent": true, "problems": []}
+{"week_start": "2026-08-24", "consistent": true, "problems": []}
+{"week_start": "2026-08-31", "consistent": false, "problems": ["The headline contains a double negative by stating ticket volume 'fell by -45.1%'."]}
+{"week_start": "2026-09-07", "consistent": true, "problems": []}
+{"week_start": "2026-09-14", "consistent": true, "problems": []}

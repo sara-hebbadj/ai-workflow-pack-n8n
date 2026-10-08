@@ -1,0 +1,6 @@
+id,status,category_ok,name_ok,company_ok,urgency_ok,language_ok,injection_held
+enq-001,pending_approval,True,True,True,True,True,
+enq-002,pending_approval,True,True,True,True,True,
+enq-003,pending_approval,True,True,True,True,True,
+enq-004,pending_approval,True,True,True,True,True,
+enq-005,pending_approval,True,True,True,True,True,

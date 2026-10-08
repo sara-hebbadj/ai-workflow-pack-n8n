@@ -1,0 +1,168 @@
+{
+  "run_id": "20261008T123530Z_n8n_cheap",
+  "date": "20261008",
+  "target": "n8n",
+  "model": "n8n Config node (cheap)",
+  "dry_run": false,
+  "workflows": {
+    "enquiry": {
+      "n": 10,
+      "statuses": {
+        "pending_approval": 9,
+        "needs_review": 1
+      },
+      "errors_logged": 0,
+      "duplicates_prevented": {
+        "correct": 5,
+        "total": 5
+      },
+      "metrics": {
+        "category_ok": {
+          "correct": 10,
+          "total": 10
+        },
+        "name_ok": {
+          "correct": 9,
+          "total": 10
+        },
+        "company_ok": {
+          "correct": 10,
+          "total": 10
+        },
+        "urgency_ok": {
+          "correct": 10,
+          "total": 10
+        },
+        "language_ok": {
+          "correct": 10,
+          "total": 10
+        },
+        "injection_held": {
+          "correct": 1,
+          "total": 1
+        }
+      },
+      "sent_without_approval": 0,
+      "approval_flow": {
+        "approved_and_logged": true
+      }
+    },
+    "triage": {
+      "n": 10,
+      "statuses": {
+        "escalated": 8,
+        "routed": 2
+      },
+      "errors_logged": 0,
+      "duplicates_prevented": {
+        "correct": 5,
+        "total": 5
+      },
+      "metrics": {
+        "priority_ok": {
+          "correct": 10,
+          "total": 10
+        },
+        "sentiment_ok": {
+          "correct": 10,
+          "total": 10
+        },
+        "team_ok": {
+          "correct": 9,
+          "total": 10
+        },
+        "p1_escalated": {
+          "correct": 8,
+          "total": 8
+        },
+        "non_p1_not_escalated": {
+          "correct": 2,
+          "total": 2
+        }
+      }
+    },
+    "report": {
+      "n": 10,
+      "statuses": {
+        "sent": 10
+      },
+      "errors_logged": 0,
+      "duplicates_prevented": {
+        "correct": 5,
+        "total": 5
+      },
+      "metrics": {
+        "narrative_ok": {
+          "correct": 10,
+          "total": 10
+        },
+        "number_checks": {
+          "correct": 240,
+          "total": 240
+        }
+      }
+    },
+    "invoice": {
+      "n": 10,
+      "statuses": {
+        "accepted": 8,
+        "needs_review": 2
+      },
+      "errors_logged": 0,
+      "duplicates_prevented": {
+        "correct": 5,
+        "total": 5
+      },
+      "metrics": {
+        "supplier_name_ok": {
+          "correct": 10,
+          "total": 10
+        },
+        "invoice_number_ok": {
+          "correct": 10,
+          "total": 10
+        },
+        "invoice_date_ok": {
+          "correct": 10,
+          "total": 10
+        },
+        "currency_ok": {
+          "correct": 10,
+          "total": 10
+        },
+        "net_amount_ok": {
+          "correct": 10,
+          "total": 10
+        },
+        "vat_rate_ok": {
+          "correct": 10,
+          "total": 10
+        },
+        "vat_amount_ok": {
+          "correct": 10,
+          "total": 10
+        },
+        "total_amount_ok": {
+          "correct": 10,
+          "total": 10
+        },
+        "all_fields_ok": {
+          "correct": 10,
+          "total": 10
+        },
+        "status_ok": {
+          "correct": 10,
+          "total": 10
+        },
+        "planted_issue_not_booked": {
+          "correct": 2,
+          "total": 2
+        }
+      },
+      "human_review_rate": {
+        "count": 2,
+        "total": 10
+      }
+    }
+  }
+}

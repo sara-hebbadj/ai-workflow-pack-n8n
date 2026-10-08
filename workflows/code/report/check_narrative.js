@@ -22,6 +22,17 @@ function formatValue(path, value) {
   if (value === null) return 'n/a';
   return FLOAT_KEYS.includes(path) ? Number(value).toFixed(1) : String(value);
 }
+// {tickets_change_pct} is signed: "fell by {tickets_change_pct}%" would print "fell by -22.4%".
+const CHANGE_DOWN = new RegExp(__CONST:workflow_pack.report.CHANGE_DOWN_PATTERN__, 'i');
+const CHANGE_UP = new RegExp(__CONST:workflow_pack.report.CHANGE_UP_PATTERN__, 'i');
+function changeWordingProblems(text) {
+  const change = numbers.tickets_change_pct;
+  if (CHANGE_DOWN.test(text)) return ["a 'fell/down' word is placed before the signed {tickets_change_pct}"];
+  if ((change === null || change === undefined || change < 0) && CHANGE_UP.test(text)) {
+    return ["a 'rose/up' word is placed before {tickets_change_pct}, which is not an increase"];
+  }
+  return [];
+}
 function checkNarrative(text) {
   const problems = [];
   for (const match of text.matchAll(PLACEHOLDER)) {
@@ -29,6 +40,7 @@ function checkNarrative(text) {
   }
   const typed = text.replace(PLACEHOLDER, ' ').replace(/\bP[1-4]\b/g, ' ').match(/[0-9]+/g) || [];
   if (typed.length) problems.push(`AI typed numbers itself: ${typed.join(', ')}`);
+  problems.push(...changeWordingProblems(text));
   if (problems.length) return { text, problems };
   return { text: text.replace(PLACEHOLDER, (m, path) => formatValue(path, lookup(path))), problems };
 }

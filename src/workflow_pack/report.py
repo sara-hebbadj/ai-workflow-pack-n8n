@@ -110,6 +110,27 @@ def compute_numbers(tickets: list[dict], enquiries: list[dict], week_start: str)
 PLACEHOLDER = re.compile(r"\{([a-z_]+(?:\.[A-Za-z0-9]+)?)\}")
 PRIORITY_LABEL = re.compile(r"\bP[1-4]\b")
 DIGITS = re.compile(r"[0-9]+")
+# {tickets_change_pct} is signed, so a direction word right before it reads wrong once filled in:
+# "fell by {tickets_change_pct}%" becomes "fell by -22.4%". Found in the first live run (8 October 2026):
+# 21 of the 22 weeks with fewer tickets read like that. The same patterns are used in the n8n Code node.
+CHANGE_DOWN_PATTERN = (
+    r"\b(?:fell|falls?|falling|down|decreased?|decreases|decreasing|drop|drops|dropped|declined?|declines|lower|eased|shrank)"
+    r"\s+(?:(?:by|of)\s+)?\{tickets_change_pct\}"
+)
+CHANGE_UP_PATTERN = (
+    r"\b(?:rose|rises?|rising|up|increased?|increases|increasing|grew|grows?|jumped|climbed|higher)"
+    r"\s+(?:(?:by|of)\s+)?\{tickets_change_pct\}"
+)
+
+
+def change_wording_problems(text: str, numbers: dict) -> list[str]:
+    """A 'fell/down' word before the signed change is always wrong; a 'rose/up' word only when it is negative."""
+    change = numbers.get("tickets_change_pct")
+    if re.search(CHANGE_DOWN_PATTERN, text, flags=re.IGNORECASE):
+        return ["a 'fell/down' word is placed before the signed {tickets_change_pct}"]
+    if (change is None or change < 0) and re.search(CHANGE_UP_PATTERN, text, flags=re.IGNORECASE):
+        return ["a 'rose/up' word is placed before {tickets_change_pct}, which is not an increase"]
+    return []
 
 
 def format_value(value) -> str:
@@ -143,6 +164,7 @@ def check_narrative(text: str, numbers: dict) -> tuple[str, list[str]]:
     typed = DIGITS.findall(PRIORITY_LABEL.sub(" ", PLACEHOLDER.sub(" ", text)))
     if typed:
         problems.append(f"AI typed numbers itself: {', '.join(typed)}")
+    problems += change_wording_problems(text, numbers)
     if problems:
         return text, problems
     return PLACEHOLDER.sub(lambda m: format_value(lookup(numbers, m.group(1))), text), []

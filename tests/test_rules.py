@@ -172,3 +172,13 @@ def test_narrative_with_typed_or_invented_numbers_is_held():
     assert check_narrative("- 39 tickets this week", NUMBERS)[1]
     assert check_narrative("- {refund_total} refunded", NUMBERS)[1]
     assert check_narrative("- {tickets_by_priority} tickets", NUMBERS)[1]  # a whole table is not a number
+
+
+def test_direction_word_before_the_signed_change_is_held():
+    # Seen in the first live run: "fell by {tickets_change_pct}%" printed as "fell by -22.4%".
+    assert check_narrative("- Tickets fell by {tickets_change_pct}% this week", NUMBERS)[1]
+    assert check_narrative("- Volume was down {tickets_change_pct}%", NUMBERS)[1]
+    assert check_narrative("- Tickets rose {tickets_change_pct}%", NUMBERS)[1]  # NUMBERS has a negative change
+    assert check_narrative("- Tickets rose {tickets_change_pct}%", {**NUMBERS, "tickets_change_pct": 12.0})[1] == []
+    assert check_narrative("- {tickets_total} tickets, down from last week ({tickets_change_pct}%)", NUMBERS)[1] == []
+    assert check_narrative("- a {tickets_change_pct}% change from last week", NUMBERS)[1] == []

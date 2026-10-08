@@ -45,6 +45,8 @@ In n8n, go to **Credentials → Add credential → OpenAI** and enter:
 - **API Key:** your OpenRouter key.
 - **Base URL:** `https://openrouter.ai/api/v1`.
 
+Alternative that keeps the key out of n8n's database (used for the live n8n slice on 8 October 2026): save the credential with an **empty** API key, then start n8n with the key in its environment only, for example `CREDENTIALS_OVERWRITE_DATA='{"openAiApi":{"apiKey":"<your key>"}}'`. n8n fills an empty credential field from this variable at run time. Do not put this line in a file that is committed.
+
 ## 4. Import and publish
 
 Import the workflows in one of two ways:

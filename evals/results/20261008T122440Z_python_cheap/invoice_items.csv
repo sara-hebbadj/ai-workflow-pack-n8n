@@ -1,0 +1,6 @@
+id,status,supplier_name_ok,invoice_number_ok,invoice_date_ok,currency_ok,net_amount_ok,vat_rate_ok,vat_amount_ok,total_amount_ok,all_fields_ok,status_ok,issue_caught
+inv-001,accepted,True,True,True,True,True,True,True,True,True,True,
+inv-002,accepted,True,True,True,True,True,True,True,True,True,True,
+inv-003,accepted,True,True,True,True,True,True,True,True,True,True,
+inv-004,accepted,True,True,True,True,True,True,True,True,True,True,
+inv-005,needs_review,True,True,True,True,True,True,True,True,True,True,True

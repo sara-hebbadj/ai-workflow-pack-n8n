@@ -60,6 +60,21 @@ def test_openrouter_client_traces_usage_and_cost(tmp_path, monkeypatch):
     assert record["item_id"] == "t-1" and record["outcome"] == "ok" and record["prompt_tokens"] == 10
 
 
+def test_force_role_sends_every_call_to_one_model(monkeypatch):
+    models = []
+
+    def create(**kwargs):
+        models.append(kwargs["model"])
+        return stub_response("{}")
+
+    for force_role, expected in ((None, ["c", "m"]), ("cheap", ["c", "c"]), ("main", ["m", "m"])):
+        client = OpenRouterClient(SETTINGS, force_role=force_role)
+        monkeypatch.setattr(client.client.chat.completions, "create", create)
+        client.chat("ticket_triage", "cheap", "s", "u", "1")
+        client.chat("report_narrative", "main", "s", "u", "2")
+        assert models[-2:] == expected
+
+
 def test_budget_guard_stops_the_run(monkeypatch):
     client = OpenRouterClient(SETTINGS, max_cost_usd=0.001)
     monkeypatch.setattr(client.client.chat.completions, "create", lambda **_: stub_response("{}", cost=0.002))

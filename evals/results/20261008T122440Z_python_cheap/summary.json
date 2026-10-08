@@ -1,0 +1,167 @@
+{
+  "run_id": "20261008T122440Z_python_cheap",
+  "date": "20261008",
+  "target": "python",
+  "model": "openai/gpt-6-luna (every call)",
+  "dry_run": false,
+  "workflows": {
+    "enquiry": {
+      "n": 5,
+      "statuses": {
+        "pending_approval": 5
+      },
+      "errors_logged": 0,
+      "duplicates_prevented": {
+        "correct": 5,
+        "total": 5
+      },
+      "metrics": {
+        "category_ok": {
+          "correct": 5,
+          "total": 5
+        },
+        "name_ok": {
+          "correct": 5,
+          "total": 5
+        },
+        "company_ok": {
+          "correct": 5,
+          "total": 5
+        },
+        "urgency_ok": {
+          "correct": 5,
+          "total": 5
+        },
+        "language_ok": {
+          "correct": 5,
+          "total": 5
+        },
+        "injection_held": {
+          "correct": 0,
+          "total": 0
+        }
+      },
+      "sent_without_approval": 0,
+      "approval_flow": {
+        "approved_and_logged": true
+      }
+    },
+    "triage": {
+      "n": 5,
+      "statuses": {
+        "escalated": 5
+      },
+      "errors_logged": 0,
+      "duplicates_prevented": {
+        "correct": 5,
+        "total": 5
+      },
+      "metrics": {
+        "priority_ok": {
+          "correct": 5,
+          "total": 5
+        },
+        "sentiment_ok": {
+          "correct": 5,
+          "total": 5
+        },
+        "team_ok": {
+          "correct": 5,
+          "total": 5
+        },
+        "p1_escalated": {
+          "correct": 5,
+          "total": 5
+        },
+        "non_p1_not_escalated": {
+          "correct": 0,
+          "total": 0
+        }
+      }
+    },
+    "report": {
+      "n": 5,
+      "statuses": {
+        "sent": 5
+      },
+      "errors_logged": 0,
+      "duplicates_prevented": {
+        "correct": 5,
+        "total": 5
+      },
+      "metrics": {
+        "narrative_ok": {
+          "correct": 5,
+          "total": 5
+        },
+        "number_checks": {
+          "correct": 120,
+          "total": 120
+        }
+      }
+    },
+    "invoice": {
+      "n": 5,
+      "statuses": {
+        "accepted": 4,
+        "needs_review": 1
+      },
+      "errors_logged": 0,
+      "duplicates_prevented": {
+        "correct": 5,
+        "total": 5
+      },
+      "metrics": {
+        "supplier_name_ok": {
+          "correct": 5,
+          "total": 5
+        },
+        "invoice_number_ok": {
+          "correct": 5,
+          "total": 5
+        },
+        "invoice_date_ok": {
+          "correct": 5,
+          "total": 5
+        },
+        "currency_ok": {
+          "correct": 5,
+          "total": 5
+        },
+        "net_amount_ok": {
+          "correct": 5,
+          "total": 5
+        },
+        "vat_rate_ok": {
+          "correct": 5,
+          "total": 5
+        },
+        "vat_amount_ok": {
+          "correct": 5,
+          "total": 5
+        },
+        "total_amount_ok": {
+          "correct": 5,
+          "total": 5
+        },
+        "all_fields_ok": {
+          "correct": 5,
+          "total": 5
+        },
+        "status_ok": {
+          "correct": 5,
+          "total": 5
+        },
+        "planted_issue_not_booked": {
+          "correct": 1,
+          "total": 1
+        }
+      },
+      "human_review_rate": {
+        "count": 1,
+        "total": 5
+      }
+    }
+  },
+  "cost_usd": 0.003
+}

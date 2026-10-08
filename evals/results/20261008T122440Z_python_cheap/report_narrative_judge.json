@@ -1,0 +1,10 @@
+{
+  "run": "20261008T122440Z_python_cheap",
+  "judge_model": "google/gemini-3.8-flash",
+  "judged": 5,
+  "judged_consistent": 4,
+  "judged_inconsistent": 1,
+  "unparsed": 0,
+  "judge_cost_usd": 0.01338,
+  "note": "LLM-judge opinion, not a human review; one judge call per sent report, temperature 0"
+}

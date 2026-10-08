@@ -1,0 +1,31 @@
+{
+  "run_id": "20261008T124916Z_python_cheap",
+  "date": "20261008",
+  "target": "python",
+  "model": "openai/gpt-6-luna (every call)",
+  "dry_run": false,
+  "workflows": {
+    "report": {
+      "n": 50,
+      "statuses": {
+        "sent": 50
+      },
+      "errors_logged": 0,
+      "duplicates_prevented": {
+        "correct": 5,
+        "total": 5
+      },
+      "metrics": {
+        "narrative_ok": {
+          "correct": 50,
+          "total": 50
+        },
+        "number_checks": {
+          "correct": 1200,
+          "total": 1200
+        }
+      }
+    }
+  },
+  "cost_usd": 0.0129
+}

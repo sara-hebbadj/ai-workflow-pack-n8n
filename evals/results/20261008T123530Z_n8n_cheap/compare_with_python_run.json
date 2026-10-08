@@ -1,0 +1,54 @@
+{
+  "enquiry": {
+    "identical": 8,
+    "total": 10,
+    "mismatches": [
+      {
+        "id": "enq-003",
+        "fields": [
+          "urgency"
+        ]
+      },
+      {
+        "id": "enq-006",
+        "fields": [
+          "name"
+        ]
+      }
+    ]
+  },
+  "triage": {
+    "identical": 10,
+    "total": 10,
+    "mismatches": []
+  },
+  "report": {
+    "identical": 10,
+    "total": 10,
+    "mismatches": []
+  },
+  "invoice": {
+    "identical": 7,
+    "total": 10,
+    "mismatches": [
+      {
+        "id": "inv-004",
+        "fields": [
+          "fields"
+        ]
+      },
+      {
+        "id": "inv-007",
+        "fields": [
+          "fields"
+        ]
+      },
+      {
+        "id": "inv-008",
+        "fields": [
+          "fields"
+        ]
+      }
+    ]
+  }
+}

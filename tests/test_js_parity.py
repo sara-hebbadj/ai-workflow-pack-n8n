@@ -82,10 +82,13 @@ def test_report_numbers_and_narrative_check_match_python():
     numbers = run_code_node("03_weekly_report.json", "Compute numbers (code)", [{}], nodes)["output"][0]["numbers"]
     assert numbers == compute_numbers(tickets, enquiries, "2026-03-02")
     for narrative in ["- {tickets_total} tickets, {tickets_change_pct}% change, {avg_first_response_minutes} min", "- 39 tickets",
-                      "- {refund_total} refunds", "- P1 count is {tickets_by_priority.P1}"]:  # fmt: skip
+                      "- {refund_total} refunds", "- P1 count is {tickets_by_priority.P1}",
+                      "- Tickets fell by {tickets_change_pct}%", "- Tickets rose {tickets_change_pct}%",
+                      "- Down from last week ({tickets_change_pct}%)"]:  # fmt: skip
         ai = {"headline": "Weekly summary", "narrative": narrative}
         out = run_code_node("03_weekly_report.json", "Check narrative", [{"ai": ai, "numbers": numbers}])["output"][0]
         text, problems = check_narrative(narrative, numbers)
         assert (out["status"] == "sent") == (not problems)
+        assert out["reason"] == "; ".join(problems)
         if not problems:
             assert out["narrative"] == text
